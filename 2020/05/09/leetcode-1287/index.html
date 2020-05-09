@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Hexo部署 - Tomas&#39; blog</title>
+  <title>Leetcode 1287 - 有序数组中出现次数超过25%的元素 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,8 +132,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-09 17:20">
-                    2020年5月9日 下午
+                  <time datetime="2020-05-09 19:39">
+                    2020年5月9日 晚上
                   </time>
                 </div>
               
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    314 字
+                    283 字
                   </span>
                 
 
@@ -182,13 +182,36 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <p>重新安装Hexo，已经时隔三年。虽然很多事情缠身，不过简单探索的快乐还在。Github Page还能使用，但是Hexo本身已经完全不同了。代码库被我完全的重写掉，使用的<a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener">Next主题</a></p>
-<p>通过配置文件向github page库推送需要安装</p>
-<pre><code class="hljs bash">$ npm install hexo-deployer-git --save</code></pre>
+              <p>题目：</p>
+<pre><code class="hljs quote">给你一个非递减的有序整数数组，已知这个数组中恰好有一个整数，它的出现次数超过数组元素总数的 25%。
 
-<p>明天再熟悉下Markdown语法，写我自己的好东西</p>
-<h3 id="三天后"><a href="#三天后" class="headerlink" title="三天后"></a>三天后</h3><p>在windows上配置hexo, 才发现github上只有打包好的静态网站，配置、主题、写的文字全没上传。官网说法，想想也对，回头抄一抄别人的hexo文件管理方式。<a href="https://hexo.io/zh-cn/docs/one-command-deployment" target="_blank" rel="noopener">“由于 Hexo 的部署默认使用分支 master，所以如果你同时正在使用 Git 管理你的站点目录，你应当注意你的部署分支应当不同于写作分支。<br>一个好的实践是将站点目录和 Pages 分别存放在两个不同的 Git 仓库中，可以有效避免相互覆盖。<br>Hexo 在部署你的站点生成的文件时并不会更新你的站点目录。因此你应该手动提交并推送你的写作分支。”</a></p>
-<p>Next分支坏了，显示Null。直接换成了<a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="noopener">Fluid高级主题</a></p>
+请你找到并返回这个整数</code></pre>
+
+<p>这道题是解的最顺的，自己的解法如下：</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findSpecialInteger</span><span class="hljs-params">(self, arr)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type arr: List[int]</span>
+<span class="hljs-string">        :rtype: int</span>
+<span class="hljs-string">        """</span>
+
+        map = &#123;key:<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> set(arr)&#125;
+
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(arr)):
+            map[arr[i]] += <span class="hljs-number">1</span>
+
+        <span class="hljs-keyword">for</span> k,v <span class="hljs-keyword">in</span> map.items():
+            <span class="hljs-keyword">if</span> <span class="hljs-number">4</span>*v &gt; len(arr):
+                <span class="hljs-keyword">return</span> k</code></pre>
+
+<p>这里边的第二个for循环其实可以不要, 只要在第一个for循环里，每步判断下是否已超过25%就行</p>
+<p><strong>重点</strong>在这里。超过25%，就感觉应该用二分查找，但是没什么直接思路<br><a href="https://leetcode-cn.com/problems/element-appearing-more-than-25-in-sorted-array/solution/" target="_blank" rel="noopener">Leetcode网站</a>提供了解法</p>
+<ol>
+<li>反证法证明解一定出现在开始、1/4，1/2，3/4的指针位置</li>
+<li>python里用了bisect.bisect_left这种方法去寻找指针位置值在左右的范围</li>
+<li>range(x, y, z) 是在[x,y)左开右闭区间内以z步长迭代</li>
+</ol>
+<p>时间复杂度从O(N)降到O(LogN)了<br>回头自己实现一下</p>
 
             </article>
             <hr>
@@ -198,7 +221,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Tools/">-Tools</a>
+                      <a class="hover-with-bg" href="/categories/Leetcode/">-Leetcode</a>
                     
                   </div>
                 
@@ -212,18 +235,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/09/leetcode-69/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 69 - x的平方根</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/09/hello-world/">
-                        <span class="hidden-mobile">Hello World</span>
+                      <a href="/2020/05/09/leetcode-69/">
+                        <span class="hidden-mobile">Leetcode 69 - x的平方根</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -363,7 +380,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Hexo部署&nbsp;",
+        "Leetcode 1287 - 有序数组中出现次数超过25%的元素&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
