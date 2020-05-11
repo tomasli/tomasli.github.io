@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Leetcode 50 - Pow(x, n)</title>
+    <link href="/2020/05/11/leetcode-50/"/>
+    <url>/2020/05/11/leetcode-50/</url>
+    
+    <content type="html"><![CDATA[<p>题目：</p><pre><code class="hljs quote">实现 pow(x, n) ，即计算 x 的 n 次幂函数。</code></pre><p>前边都是错误解法，想破头。后边才是正确的</p><p>###错误解法1</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">myPow</span><span class="hljs-params">(self, x, n)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type x: float</span><span class="hljs-string">        :type n: int</span><span class="hljs-string">        :rtype: float</span><span class="hljs-string">        """</span>        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">helper</span><span class="hljs-params">(x, n)</span>:</span>            <span class="hljs-keyword">if</span> n == <span class="hljs-number">0</span>:                <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>            <span class="hljs-keyword">elif</span> n &gt; <span class="hljs-number">0</span>:                <span class="hljs-keyword">return</span> helper(x, n/<span class="hljs-number">2</span>)*helper(x, (n-n/<span class="hljs-number">2</span>))            <span class="hljs-keyword">elif</span> n &lt; <span class="hljs-number">0</span>:                <span class="hljs-keyword">return</span> helper(x, n/<span class="hljs-number">2</span>)/helper(x, (n-n/<span class="hljs-number">2</span>))        <span class="hljs-keyword">return</span> helper(x, n)</code></pre><p>首先想到动态规划，myPow(x, n)=myPow(x, n-m)*myPow(x, m)，状态转换<br>myPow(x, 0) = 1, 这个base case，不论正负值都往这个方向走<br>用迭代试试，分成&gt;0, &lt;0两部分<br>以为写的还行呢，其实是终结条件没判断好，n=1的时候，两个相乘的helper会总有一个以helper(x, 1)深入进去，达到迭代最大值</p><p>###错误解法2</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">myPow</span><span class="hljs-params">(self, x, n)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type x: float</span><span class="hljs-string">        :type n: int</span><span class="hljs-string">        :rtype: float</span><span class="hljs-string">        """</span>            <span class="hljs-comment"># 真正的思路是将奇偶两种情况分开处理，偶数就一直除以2，奇数是先减1再一直除以2</span>            <span class="hljs-keyword">if</span> n == <span class="hljs-number">0</span>:                <span class="hljs-keyword">return</span> <span class="hljs-number">1.0</span>            <span class="hljs-keyword">elif</span> n &gt; <span class="hljs-number">0</span>:                <span class="hljs-keyword">if</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">0</span>:                    <span class="hljs-keyword">return</span> helper(x, n/<span class="hljs-number">2</span>)**<span class="hljs-number">2</span>                <span class="hljs-keyword">elif</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">1</span>:                    <span class="hljs-keyword">return</span> helper(x, n/<span class="hljs-number">2</span>)**<span class="hljs-number">2</span>*x**<span class="hljs-number">1</span>            <span class="hljs-keyword">elif</span> n &lt; <span class="hljs-number">0</span>:                <span class="hljs-keyword">if</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">0</span>:                    <span class="hljs-keyword">print</span> n                    <span class="hljs-keyword">return</span> helper(x, abs(n)/<span class="hljs-number">2</span>)**<span class="hljs-number">-2</span>                <span class="hljs-keyword">elif</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">-1</span>:                    <span class="hljs-keyword">return</span> helper(x, abs(n)/<span class="hljs-number">2</span>)**<span class="hljs-number">-2</span>*x**<span class="hljs-number">-1</span>        <span class="hljs-keyword">return</span> helper(x, n)</code></pre><p>34.00512<br>-3<br>很多测试用例过得去，但是这个过不去报错，搞不懂，估计是负数情况下除的时候是算上0来保留整数的。写的很繁琐，还错</p><pre><code class="hljs code">TypeError: None is not valid value for the expected return type double    raise TypeError(str(ret) + &quot; is not valid value for the expected return type double&quot;);Line 67 in _driver (Solution.py)    _driver()Line 73 in &lt;module&gt; (Solution.py)</code></pre><p>###以下正确答案</p><p>参考了别人答案才会了，可以变形：x的n次方=(1/x)的-n次方，用这个把负数n变正数。另外本不需要helper方法</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">myPow</span><span class="hljs-params">(self, x, n)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type x: float</span><span class="hljs-string">        :type n: int</span><span class="hljs-string">        :rtype: float</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> n == <span class="hljs-number">0</span>:            <span class="hljs-keyword">return</span> <span class="hljs-number">1.0</span>        <span class="hljs-keyword">if</span> n &lt; <span class="hljs-number">0</span>:            x = <span class="hljs-number">1</span>/x            n = -n        <span class="hljs-keyword">if</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">0</span>:            <span class="hljs-keyword">return</span> self.myPow(x, n/<span class="hljs-number">2</span>)**<span class="hljs-number">2</span>        <span class="hljs-keyword">elif</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">1</span>:            <span class="hljs-keyword">return</span> self.myPow(x, n/<span class="hljs-number">2</span>)**<span class="hljs-number">2</span>*x</code></pre><p>这块还可以优化，进入子迭代前平方，而不要返回时平方，更易读，效率上差不多</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">myPow</span><span class="hljs-params">(self, x, n)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type x: float</span><span class="hljs-string">        :type n: int</span><span class="hljs-string">        :rtype: float</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> n == <span class="hljs-number">0</span>:            <span class="hljs-keyword">return</span> <span class="hljs-number">1.0</span>        <span class="hljs-keyword">if</span> n &lt; <span class="hljs-number">0</span>:            x = <span class="hljs-number">1</span>/x            n = -n        <span class="hljs-keyword">if</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">0</span>:            <span class="hljs-keyword">return</span> self.myPow(x**<span class="hljs-number">2</span>, n/<span class="hljs-number">2</span>)        <span class="hljs-keyword">elif</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">1</span>:            <span class="hljs-keyword">return</span> self.myPow(x**<span class="hljs-number">2</span>, n/<span class="hljs-number">2</span>)*x</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Leetcode 1287 - 有序数组中出现次数超过25%的元素</title>
     <link href="/2020/05/09/leetcode-1287/"/>
     <url>/2020/05/09/leetcode-1287/</url>
@@ -13,7 +32,7 @@
     
     <categories>
       
-      <category>-Leetcode</category>
+      <category>Leetcode</category>
       
     </categories>
     
@@ -32,7 +51,7 @@
     
     <categories>
       
-      <category>-Leetcode</category>
+      <category>Leetcode</category>
       
     </categories>
     
@@ -51,7 +70,7 @@
     
     <categories>
       
-      <category>-Tools</category>
+      <category>Tools</category>
       
     </categories>
     

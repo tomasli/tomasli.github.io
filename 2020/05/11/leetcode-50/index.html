@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 1287 - 有序数组中出现次数超过25%的元素 - Tomas&#39; blog</title>
+  <title>Leetcode 50 - Pow(x, n) - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,8 +132,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-09 19:39">
-                    2020年5月9日 晚上
+                  <time datetime="2020-05-11 16:59">
+                    2020年5月11日 下午
                   </time>
                 </div>
               
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    283 字
+                    609 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    3
+                    9
                      分钟
                   </span>
                 
@@ -183,36 +183,102 @@
             
             <article class="markdown-body">
               <p>题目：</p>
-<pre><code class="hljs quote">给你一个非递减的有序整数数组，已知这个数组中恰好有一个整数，它的出现次数超过数组元素总数的 25%。
+<pre><code class="hljs quote">实现 pow(x, n) ，即计算 x 的 n 次幂函数。</code></pre>
 
-请你找到并返回这个整数</code></pre>
-
-<p>这道题是解的最顺的，自己的解法如下：</p>
+<p>前边都是错误解法，想破头。后边才是正确的</p>
+<p>###错误解法1</p>
 <pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findSpecialInteger</span><span class="hljs-params">(self, arr)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">myPow</span><span class="hljs-params">(self, x, n)</span>:</span>
         <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type arr: List[int]</span>
-<span class="hljs-string">        :rtype: int</span>
+<span class="hljs-string">        :type x: float</span>
+<span class="hljs-string">        :type n: int</span>
+<span class="hljs-string">        :rtype: float</span>
 <span class="hljs-string">        """</span>
 
-        map = &#123;key:<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> set(arr)&#125;
+        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">helper</span><span class="hljs-params">(x, n)</span>:</span>
+            <span class="hljs-keyword">if</span> n == <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+            <span class="hljs-keyword">elif</span> n &gt; <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">return</span> helper(x, n/<span class="hljs-number">2</span>)*helper(x, (n-n/<span class="hljs-number">2</span>))
+            <span class="hljs-keyword">elif</span> n &lt; <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">return</span> helper(x, n/<span class="hljs-number">2</span>)/helper(x, (n-n/<span class="hljs-number">2</span>))
 
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(arr)):
-            map[arr[i]] += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">return</span> helper(x, n)</code></pre>
 
-        <span class="hljs-keyword">for</span> k,v <span class="hljs-keyword">in</span> map.items():
-            <span class="hljs-keyword">if</span> <span class="hljs-number">4</span>*v &gt; len(arr):
-                <span class="hljs-keyword">return</span> k</code></pre>
+<p>首先想到动态规划，myPow(x, n)=myPow(x, n-m)*myPow(x, m)，状态转换<br>myPow(x, 0) = 1, 这个base case，不论正负值都往这个方向走<br>用迭代试试，分成&gt;0, &lt;0两部分<br>以为写的还行呢，其实是终结条件没判断好，n=1的时候，两个相乘的helper会总有一个以helper(x, 1)深入进去，达到迭代最大值</p>
+<p>###错误解法2</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">myPow</span><span class="hljs-params">(self, x, n)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type x: float</span>
+<span class="hljs-string">        :type n: int</span>
+<span class="hljs-string">        :rtype: float</span>
+<span class="hljs-string">        """</span>
 
-<p>这里边的第二个for循环其实可以不要, 只要在第一个for循环里，每步判断下是否已超过25%就行</p>
-<p><strong>重点</strong>在这里。超过25%，就感觉应该用二分查找，但是没什么直接思路<br><a href="https://leetcode-cn.com/problems/element-appearing-more-than-25-in-sorted-array/solution/" target="_blank" rel="noopener">Leetcode网站</a>提供了解法</p>
-<ol>
-<li>反证法证明解一定出现在开始、1/4，1/2，3/4的指针位置</li>
-<li>python里用了bisect.bisect_left这种方法去寻找指针位置值在左右的范围</li>
-<li>range(x, y, z) 是在[x,y)左开右闭区间内以z步长迭代</li>
-</ol>
-<p>时间复杂度从O(N)降到O(LogN)了<br>回头自己实现一下</p>
+            <span class="hljs-comment"># 真正的思路是将奇偶两种情况分开处理，偶数就一直除以2，奇数是先减1再一直除以2</span>
+            <span class="hljs-keyword">if</span> n == <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-number">1.0</span>
+            <span class="hljs-keyword">elif</span> n &gt; <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">if</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">0</span>:
+                    <span class="hljs-keyword">return</span> helper(x, n/<span class="hljs-number">2</span>)**<span class="hljs-number">2</span>
+                <span class="hljs-keyword">elif</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">1</span>:
+                    <span class="hljs-keyword">return</span> helper(x, n/<span class="hljs-number">2</span>)**<span class="hljs-number">2</span>*x**<span class="hljs-number">1</span>
+            <span class="hljs-keyword">elif</span> n &lt; <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">if</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">0</span>:
+                    <span class="hljs-keyword">print</span> n
+                    <span class="hljs-keyword">return</span> helper(x, abs(n)/<span class="hljs-number">2</span>)**<span class="hljs-number">-2</span>
+                <span class="hljs-keyword">elif</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">-1</span>:
+                    <span class="hljs-keyword">return</span> helper(x, abs(n)/<span class="hljs-number">2</span>)**<span class="hljs-number">-2</span>*x**<span class="hljs-number">-1</span>
 
+        <span class="hljs-keyword">return</span> helper(x, n)</code></pre>
+
+<p>34.00512<br>-3<br>很多测试用例过得去，但是这个过不去报错，搞不懂，估计是负数情况下除的时候是算上0来保留整数的。写的很繁琐，还错</p>
+<pre><code class="hljs code">TypeError: None is not valid value for the expected return type double
+    raise TypeError(str(ret) + &quot; is not valid value for the expected return type double&quot;);
+Line 67 in _driver (Solution.py)
+    _driver()
+Line 73 in &lt;module&gt; (Solution.py)</code></pre>
+
+<p>###以下正确答案</p>
+<p>参考了别人答案才会了，可以变形：x的n次方=(1/x)的-n次方，用这个把负数n变正数。另外本不需要helper方法</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">myPow</span><span class="hljs-params">(self, x, n)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type x: float</span>
+<span class="hljs-string">        :type n: int</span>
+<span class="hljs-string">        :rtype: float</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-keyword">if</span> n == <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1.0</span>
+
+        <span class="hljs-keyword">if</span> n &lt; <span class="hljs-number">0</span>:
+            x = <span class="hljs-number">1</span>/x
+            n = -n
+
+        <span class="hljs-keyword">if</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">return</span> self.myPow(x, n/<span class="hljs-number">2</span>)**<span class="hljs-number">2</span>
+        <span class="hljs-keyword">elif</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">1</span>:
+            <span class="hljs-keyword">return</span> self.myPow(x, n/<span class="hljs-number">2</span>)**<span class="hljs-number">2</span>*x</code></pre>
+
+<p>这块还可以优化，进入子迭代前平方，而不要返回时平方，更易读，效率上差不多</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">myPow</span><span class="hljs-params">(self, x, n)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type x: float</span>
+<span class="hljs-string">        :type n: int</span>
+<span class="hljs-string">        :rtype: float</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-keyword">if</span> n == <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1.0</span>
+
+        <span class="hljs-keyword">if</span> n &lt; <span class="hljs-number">0</span>:
+            x = <span class="hljs-number">1</span>/x
+            n = -n
+
+        <span class="hljs-keyword">if</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">return</span> self.myPow(x**<span class="hljs-number">2</span>, n/<span class="hljs-number">2</span>)
+        <span class="hljs-keyword">elif</span> n%<span class="hljs-number">2</span> == <span class="hljs-number">1</span>:
+            <span class="hljs-keyword">return</span> self.myPow(x**<span class="hljs-number">2</span>, n/<span class="hljs-number">2</span>)*x</code></pre>
             </article>
             <hr>
             <div>
@@ -235,18 +301,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/11/leetcode-50/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 50 - Pow(x, n)</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/09/leetcode-69/">
-                        <span class="hidden-mobile">Leetcode 69 - x的平方根</span>
+                      <a href="/2020/05/09/leetcode-1287/">
+                        <span class="hidden-mobile">Leetcode 1287 - 有序数组中出现次数超过25%的元素</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -386,7 +446,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 1287 - 有序数组中出现次数超过25%的元素&nbsp;",
+        "Leetcode 50 - Pow(x, n)&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
