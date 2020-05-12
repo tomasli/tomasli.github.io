@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 69 - x的平方根 - Tomas&#39; blog</title>
+  <title>Leetcode 226 - - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,8 +132,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-09 18:04">
-                    2020年5月9日 晚上
+                  <time datetime="2020-05-12 15:57">
+                    2020年5月12日 下午
                   </time>
                 </div>
               
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    385 字
+                    288 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    5
+                    4
                      分钟
                   </span>
                 
@@ -183,78 +183,71 @@
             
             <article class="markdown-body">
               <p>题目：</p>
-<pre><code class="hljs quote">实现 int sqrt(int x) 函数。
+<pre><code class="hljs quote">翻转一棵二叉树。</code></pre>
 
-计算并返回 x 的平方根，其中 x 是非负整数。
-
-由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。
-
-来源：力扣（LeetCode）
-链接：https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;sqrtx
-著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</code></pre>
-
-<p>写了3种方法</p>
-<ol>
-<li><p>单步加1速度太慢, 写的时候根本没想效率的事</p>
+<p>自己的递归解法，也有很多可优化的点</p>
 <pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mySqrt</span><span class="hljs-params">(self, x)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invertTree</span><span class="hljs-params">(self, root)</span>:</span>
         <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type x: int</span>
-<span class="hljs-string">        :rtype: int</span>
+<span class="hljs-string">        :type root: TreeNode</span>
+<span class="hljs-string">        :rtype: TreeNode</span>
 <span class="hljs-string">        """</span>
-        y = <span class="hljs-number">0</span>
-        <span class="hljs-keyword">while</span> y*y &lt;= x:
-            y+=<span class="hljs-number">1</span>
-        <span class="hljs-keyword">return</span> y<span class="hljs-number">-1</span></code></pre>
-</li>
-<li><p>二分查找, 自己想了一大顿关联到了，写的过于繁琐，设置四种判断条件人为变得困难</p>
-<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mySqrt</span><span class="hljs-params">(self, x)</span>:</span>
-        <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type x: int</span>
-<span class="hljs-string">        :rtype: int</span>
-<span class="hljs-string">        """</span>
-        <span class="hljs-comment"># 临界条件设置的好傻</span>
-        <span class="hljs-keyword">if</span> x == <span class="hljs-number">0</span>:
-            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
-        <span class="hljs-keyword">if</span> x == <span class="hljs-number">1</span>:
-            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
-    
-        left, right = <span class="hljs-number">0</span>, x 
-        <span class="hljs-keyword">while</span> left &lt;= right:
-            <span class="hljs-comment"># 取整应该用//</span>
-            mid = left + (right - left)/<span class="hljs-number">2</span>
-            <span class="hljs-comment"># 指数是**，不是^（按二进制位异或运算）</span>
-            <span class="hljs-keyword">if</span> mid**<span class="hljs-number">2</span> &lt;= x <span class="hljs-keyword">and</span> (mid+<span class="hljs-number">1</span>)**<span class="hljs-number">2</span> &gt; x:
-                <span class="hljs-keyword">return</span> mid
-            <span class="hljs-keyword">elif</span> mid**<span class="hljs-number">2</span> &lt;= x <span class="hljs-keyword">and</span> (mid+<span class="hljs-number">1</span>)**<span class="hljs-number">2</span> &lt;= x:
-                left = mid
-            <span class="hljs-keyword">elif</span> mid**<span class="hljs-number">2</span> &gt; x <span class="hljs-keyword">and</span> (mid<span class="hljs-number">-1</span>)**<span class="hljs-number">2</span> &lt;= x:
-                <span class="hljs-comment"># 返还忘了减1</span>
-                <span class="hljs-keyword">return</span> mid<span class="hljs-number">-1</span>
-            <span class="hljs-keyword">elif</span> mid**<span class="hljs-number">2</span> &gt; x <span class="hljs-keyword">and</span> (mid<span class="hljs-number">-1</span>)**<span class="hljs-number">2</span> &gt; x:
-                right = mid</code></pre>
-</li>
-<li><p>简单版二分查找，正确答案默写</p>
-<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mySqrt</span><span class="hljs-params">(self, x)</span>:</span>
-        <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type x: int</span>
-<span class="hljs-string">        :rtype: int</span>
-<span class="hljs-string">        """</span>
-        l, r, res = <span class="hljs-number">0</span>, x, <span class="hljs-number">-1</span>
+        <span class="hljs-comment"># Python要把方法引用放到方法定义后边</span>
+        <span class="hljs-keyword">return</span> helper(root)
 
-        <span class="hljs-keyword">while</span> l &lt;= r:
-            mid = l + (r - l)/<span class="hljs-number">2</span>
-            <span class="hljs-keyword">if</span> mid**<span class="hljs-number">2</span> &lt;= x:
-                res = mid
-                l = mid + <span class="hljs-number">1</span>
-            <span class="hljs-keyword">elif</span> mid**<span class="hljs-number">2</span> &gt; x:
-                r = mid - <span class="hljs-number">1</span>
-        <span class="hljs-comment"># 保存唯一正确位置到最后返回就行</span>
-        <span class="hljs-keyword">return</span> res</code></pre>
-</li>
-</ol>
+    <span class="hljs-comment"># 不需要helper，递归直接调用self.invertTree方法</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">helper</span><span class="hljs-params">(root)</span>:</span>
+        <span class="hljs-comment"># 终结条件忘了</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+        holder = root.right
+        root.right = root.left
+        root.left = holder
+
+        <span class="hljs-comment"># 终结条件在内层，这里不用if的</span>
+        <span class="hljs-keyword">if</span> root.left:
+            helper(root.left)
+        <span class="hljs-keyword">if</span> root.right:
+            helper(root.right)
+
+        <span class="hljs-keyword">return</span> root</code></pre>
+
+<p>想写一个迭代的版本，没思路（愁死了），看一下答案，所谓树的迭代就是用个节点栈取代递归</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invertTree</span><span class="hljs-params">(self, root)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type root: TreeNode</span>
+<span class="hljs-string">        :rtype: TreeNode</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-comment">#递归, 要返回None直接return就完了</span>
+        <span class="hljs-comment"># if not root:</span>
+        <span class="hljs-comment">#     return </span>
+
+        <span class="hljs-comment"># 这种交换连中间值也不需要</span>
+        <span class="hljs-comment"># root.left, root.right = root.right, root.left</span>
+        <span class="hljs-comment"># self.invertTree(root.left)</span>
+        <span class="hljs-comment"># self.invertTree(root.right)</span>
+
+        <span class="hljs-comment"># return root</span>
+
+        <span class="hljs-comment">#迭代</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+            <span class="hljs-keyword">return</span>
+        
+        stack = [root]
+        <span class="hljs-keyword">while</span> stack:
+            node = stack.pop()
+            <span class="hljs-keyword">if</span> node.left:
+                stack.append(node.left)
+            <span class="hljs-keyword">if</span> node.right:
+                stack.append(node.right)
+            node.left, node.right = node.right, node.left
+        
+        <span class="hljs-keyword">return</span> root</code></pre>
+
+
+<p>“面试题27. 二叉树的镜像” 和这个是一个题，这次自己写的轻松。 这题前中后序遍历完全一样</p>
 
             </article>
             <hr>
@@ -278,9 +271,9 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/09/leetcode-1287/">
+                      <a href="/2020/05/12/leetcode-55/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 1287 - 有序数组中出现次数超过25%的元素</span>
+                        <span class="hidden-mobile">Leetcode 55 - I. 二叉树的深度(未完待续)</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -288,8 +281,8 @@
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/09/Hexo-Manual/">
-                        <span class="hidden-mobile">Hexo部署</span>
+                      <a href="/2020/05/12/leetcode-155/">
+                        <span class="hidden-mobile">Leetcode 155 - 最小栈</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -429,7 +422,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 69 - x的平方根&nbsp;",
+        "Leetcode 226 -&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
