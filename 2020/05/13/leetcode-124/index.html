@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 226 - - Tomas&#39; blog</title>
+  <title>Leetcode 124 - 二叉树中的最大路径和 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,8 +132,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-12 15:57">
-                    2020年5月12日 下午
+                  <time datetime="2020-05-13 14:28">
+                    2020年5月13日 下午
                   </time>
                 </div>
               
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    288 字
+                    554 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    4
+                    6
                      分钟
                   </span>
                 
@@ -183,71 +183,62 @@
             
             <article class="markdown-body">
               <p>题目：</p>
-<pre><code class="hljs quote">翻转一棵二叉树。</code></pre>
+<pre><code class="hljs quote">给定一个非空二叉树，返回其最大路径和。
 
-<p>自己的递归解法，也有很多可优化的点</p>
+本题中，路径被定义为一条从树中任意节点出发，达到任意节点的序列。该路径至少包含一个节点，且不一定经过根节点。</code></pre>
+
+<p>尝试后序遍历(失败)</p>
 <pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invertTree</span><span class="hljs-params">(self, root)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxPathSum</span><span class="hljs-params">(self, root)</span>:</span>
         <span class="hljs-string">"""</span>
 <span class="hljs-string">        :type root: TreeNode</span>
-<span class="hljs-string">        :rtype: TreeNode</span>
+<span class="hljs-string">        :rtype: int</span>
 <span class="hljs-string">        """</span>
-        <span class="hljs-comment"># Python要把方法引用放到方法定义后边</span>
-        <span class="hljs-keyword">return</span> helper(root)
+        
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root: <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
 
-    <span class="hljs-comment"># 不需要helper，递归直接调用self.invertTree方法</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">helper</span><span class="hljs-params">(root)</span>:</span>
-        <span class="hljs-comment"># 终结条件忘了</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
-            <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
 
-        holder = root.right
-        root.right = root.left
-        root.left = holder
+        <span class="hljs-comment"># 不能给空叶子节点赋0，否则当前节点值为负数的话max就算错了</span>
+        max_sum_left = self.maxPathSum(root.left) <span class="hljs-keyword">if</span> root.left <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>
+        max_sum_right = self.maxPathSum(root.right) <span class="hljs-keyword">if</span> root.right <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>
 
-        <span class="hljs-comment"># 终结条件在内层，这里不用if的</span>
-        <span class="hljs-keyword">if</span> root.left:
-            helper(root.left)
-        <span class="hljs-keyword">if</span> root.right:
-            helper(root.right)
+        <span class="hljs-keyword">return</span> max(
+            max_sum_left+root.val+max_sum_right,
+            max_sum_left+root.val,
+            root.val+max_sum_right,
+            <span class="hljs-comment"># 尝试改了这个又通不过别的测试用例，而且这逻辑给我搞的乱糟糟</span>
+            max_sum_left <span class="hljs-keyword">if</span> root.left <span class="hljs-keyword">else</span> root.val,
+            max_sum_right <span class="hljs-keyword">if</span> root.right <span class="hljs-keyword">else</span> root.val,
+            <span class="hljs-comment"># 忘了只有当前节点自己的情况了</span>
+            root.val
+            )</code></pre>
 
-        <span class="hljs-keyword">return</span> root</code></pre>
-
-<p>想写一个迭代的版本，没思路（愁死了），看一下答案，所谓树的迭代就是用个节点栈取代递归</p>
+<p>看了正确答案，思考总结如下<br>当前节点路径最大值和递归返回的值不是一个值，因为子树的二叉树分歧递归上去也只能取一路的值给外层循环用<br>2. float(“-inf”)无穷小 float(“inf”)无穷大<br>3. 正确答案里的nonlocal是python 3.2引入的，我这没法用，还是要在方法内部创建方法，而且就像之前总结的，直接用类方法容易导致root名称被滥用错乱。直接外边定义一个变量会导致无法在递归内部访问到变量。 兼容用个dict或list存一下<br>4. 递归返回如果是负的可以取0，这相当与结果舍弃了这一侧的子树。因为负的情况无论怎么加进去都会导致结果总值变小</p>
 <pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invertTree</span><span class="hljs-params">(self, root)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxPathSum</span><span class="hljs-params">(self, root)</span>:</span>
         <span class="hljs-string">"""</span>
 <span class="hljs-string">        :type root: TreeNode</span>
-<span class="hljs-string">        :rtype: TreeNode</span>
+<span class="hljs-string">        :rtype: int</span>
 <span class="hljs-string">        """</span>
-        <span class="hljs-comment">#递归, 要返回None直接return就完了</span>
-        <span class="hljs-comment"># if not root:</span>
-        <span class="hljs-comment">#     return </span>
 
-        <span class="hljs-comment"># 这种交换连中间值也不需要</span>
-        <span class="hljs-comment"># root.left, root.right = root.right, root.left</span>
-        <span class="hljs-comment"># self.invertTree(root.left)</span>
-        <span class="hljs-comment"># self.invertTree(root.right)</span>
+        res = &#123;<span class="hljs-string">'res'</span>: float(<span class="hljs-string">'-inf'</span>)&#125;
 
-        <span class="hljs-comment"># return root</span>
+        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">max_gain</span><span class="hljs-params">(node)</span>:</span>
 
-        <span class="hljs-comment">#迭代</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
-            <span class="hljs-keyword">return</span>
-        
-        stack = [root]
-        <span class="hljs-keyword">while</span> stack:
-            node = stack.pop()
-            <span class="hljs-keyword">if</span> node.left:
-                stack.append(node.left)
-            <span class="hljs-keyword">if</span> node.right:
-                stack.append(node.right)
-            node.left, node.right = node.right, node.left
-        
-        <span class="hljs-keyword">return</span> root</code></pre>
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> node:
+                <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
 
+            max_gain_left = max(max_gain(node.left), <span class="hljs-number">0</span>)
+            max_gain_right = max(max_gain(node.right), <span class="hljs-number">0</span>)
+            
+            <span class="hljs-comment"># 此时以node节点为根的子树能生成的最大路径和, 尝试更新结果</span>
+            res[<span class="hljs-string">"res"</span>] = max(res[<span class="hljs-string">"res"</span>], max_gain_left + node.val + max_gain_right)
 
-<p>“面试题27. 二叉树的镜像” 和这个是一个题，这次自己写的轻松。 这题前中后序遍历完全一样</p>
+            <span class="hljs-comment"># 递归返回当前node不作为结果集根的情况下，能提供的最大路径和贡献。 node.val必须加进来，否则无法联系树上层</span>
+            <span class="hljs-keyword">return</span> max(max_gain_left, max_gain_right) + node.val
+
+        max_gain(root)
+        <span class="hljs-keyword">return</span> res[<span class="hljs-string">"res"</span>]</code></pre>
 
             </article>
             <hr>
@@ -271,9 +262,9 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/12/leetcode-55/">
+                      <a href="/2020/05/13/leetcode-105/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 55 - I. 二叉树的深度</span>
+                        <span class="hidden-mobile">Leetcode 105 - 从前序与中序遍历序列构造二叉树</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -281,8 +272,8 @@
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/12/leetcode-155/">
-                        <span class="hidden-mobile">Leetcode 155 - 最小栈</span>
+                      <a href="/2020/05/13/leetcode-102/">
+                        <span class="hidden-mobile">Leetcode 102 - 二叉树的层序遍历</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -422,7 +413,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 226 -&nbsp;",
+        "Leetcode 124 - 二叉树中的最大路径和&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 226 - - Tomas&#39; blog</title>
+  <title>Leetcode 105 - 从前序与中序遍历序列构造二叉树 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,8 +132,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-12 15:57">
-                    2020年5月12日 下午
+                  <time datetime="2020-05-13 17:50">
+                    2020年5月13日 下午
                   </time>
                 </div>
               
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    288 字
+                    599 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    4
+                    7
                      分钟
                   </span>
                 
@@ -183,71 +183,69 @@
             
             <article class="markdown-body">
               <p>题目：</p>
-<pre><code class="hljs quote">翻转一棵二叉树。</code></pre>
+<pre><code class="hljs quote">根据一棵树的前序遍历与中序遍历构造二叉树。</code></pre>
 
-<p>自己的递归解法，也有很多可优化的点</p>
+<p>遍历树的逆运算。所谓前中后，就是（左节点，父节点，右节点）中，父节点在前中后位置处理<br>前序第一个值肯定是root<br>两种排序里，右节点的位置不会变。猜想应该从后往前构造树。从子节点开始构造，迭代更好一些的感觉<br>有想了想，如果树右下角没有右叶子，两list最后一位就不一样。所以从后往前推还不如从前往后推的感觉了</p>
+<hr>
+<p>想不到解法，抄了题解中的一步思路试试</p>
+<pre><code class="hljs quote">首先，preorder 中的第一个元素一定是树的根，**这个根又将 inorder 序列分成了左右两棵子树。**现在我们只需要将先序遍历的数组中删除根元素，然后重复上面的过程处理左右两棵子树</code></pre>
+<p>这说法，是将左右子树分治了, 利用preorder拆inorder，然后进入迭代解决子问题。试试</p>
 <pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invertTree</span><span class="hljs-params">(self, root)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">buildTree</span><span class="hljs-params">(self, preorder, inorder)</span>:</span>
         <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type root: TreeNode</span>
+<span class="hljs-string">        :type preorder: List[int]</span>
+<span class="hljs-string">        :type inorder: List[int]</span>
 <span class="hljs-string">        :rtype: TreeNode</span>
 <span class="hljs-string">        """</span>
-        <span class="hljs-comment"># Python要把方法引用放到方法定义后边</span>
-        <span class="hljs-keyword">return</span> helper(root)
+        
+        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">buildSubTree</span><span class="hljs-params">(preorder, inorder)</span>:</span>
+            <span class="hljs-comment"># 已经没得计算了</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> preorder:
+                <span class="hljs-keyword">return</span>
 
-    <span class="hljs-comment"># 不需要helper，递归直接调用self.invertTree方法</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">helper</span><span class="hljs-params">(root)</span>:</span>
-        <span class="hljs-comment"># 终结条件忘了</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+            node = TreeNode(preorder[<span class="hljs-number">0</span>], <span class="hljs-literal">None</span>, <span class="hljs-literal">None</span>)
+
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(inorder), <span class="hljs-number">1</span>):
+                <span class="hljs-keyword">if</span> inorder[i] == preorder[<span class="hljs-number">0</span>]:
+                    <span class="hljs-comment"># 拆分preorder和inorder。中括号里是取数组区段的开闭区间。控制一下i溢出的情况</span>
+                    left_preorder, right_preorder = preorder[<span class="hljs-number">1</span>:i+<span class="hljs-number">1</span>], preorder[i+<span class="hljs-number">1</span>:] <span class="hljs-keyword">if</span> i &lt; len(preorder)<span class="hljs-number">-1</span> <span class="hljs-keyword">else</span> []
+                    left_inorder, right_inorder = inorder[:i], inorder[i+<span class="hljs-number">1</span>:] <span class="hljs-keyword">if</span> i &lt; len(inorder)<span class="hljs-number">-1</span> <span class="hljs-keyword">else</span> []
+                    <span class="hljs-keyword">break</span>
+
+            node.left = buildSubTree(left_preorder, left_inorder)
+            node.right = buildSubTree(right_preorder, right_inorder)
+
+            <span class="hljs-keyword">return</span> node
+
+        <span class="hljs-keyword">return</span> buildSubTree(preorder, inorder)</code></pre>
+
+
+<p>迭代里边带循环，效率在后10%。开始抄(精选答案)作业，这个和我思路一致</p>
+<ol>
+<li>list.index可以返回位置，省了一个循环处理</li>
+<li>[:]形式截取字符串不用担心溢出，超出了只会返回空，已自己测试过</li>
+</ol>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">buildTree</span><span class="hljs-params">(self, preorder, inorder)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type preorder: List[int]</span>
+<span class="hljs-string">        :type inorder: List[int]</span>
+<span class="hljs-string">        :rtype: TreeNode</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-keyword">if</span> len(inorder) == <span class="hljs-number">0</span>:
             <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
-
-        holder = root.right
-        root.right = root.left
-        root.left = holder
-
-        <span class="hljs-comment"># 终结条件在内层，这里不用if的</span>
-        <span class="hljs-keyword">if</span> root.left:
-            helper(root.left)
-        <span class="hljs-keyword">if</span> root.right:
-            helper(root.right)
-
-        <span class="hljs-keyword">return</span> root</code></pre>
-
-<p>想写一个迭代的版本，没思路（愁死了），看一下答案，所谓树的迭代就是用个节点栈取代递归</p>
-<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invertTree</span><span class="hljs-params">(self, root)</span>:</span>
-        <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type root: TreeNode</span>
-<span class="hljs-string">        :rtype: TreeNode</span>
-<span class="hljs-string">        """</span>
-        <span class="hljs-comment">#递归, 要返回None直接return就完了</span>
-        <span class="hljs-comment"># if not root:</span>
-        <span class="hljs-comment">#     return </span>
-
-        <span class="hljs-comment"># 这种交换连中间值也不需要</span>
-        <span class="hljs-comment"># root.left, root.right = root.right, root.left</span>
-        <span class="hljs-comment"># self.invertTree(root.left)</span>
-        <span class="hljs-comment"># self.invertTree(root.right)</span>
-
-        <span class="hljs-comment"># return root</span>
-
-        <span class="hljs-comment">#迭代</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
-            <span class="hljs-keyword">return</span>
-        
-        stack = [root]
-        <span class="hljs-keyword">while</span> stack:
-            node = stack.pop()
-            <span class="hljs-keyword">if</span> node.left:
-                stack.append(node.left)
-            <span class="hljs-keyword">if</span> node.right:
-                stack.append(node.right)
-            node.left, node.right = node.right, node.left
+        <span class="hljs-comment"># 前序遍历第一个值为根节点</span>
+        root = TreeNode(preorder[<span class="hljs-number">0</span>])
+        <span class="hljs-comment"># 因为没有重复元素，所以可以直接根据值来查找根节点在中序遍历中的位置</span>
+        mid = inorder.index(preorder[<span class="hljs-number">0</span>])
+        <span class="hljs-comment"># 构建左子树</span>
+        root.left = self.buildTree(preorder[<span class="hljs-number">1</span>:mid+<span class="hljs-number">1</span>], inorder[:mid])
+        <span class="hljs-comment"># 构建右子树</span>
+        root.right = self.buildTree(preorder[mid+<span class="hljs-number">1</span>:], inorder[mid+<span class="hljs-number">1</span>:])
         
         <span class="hljs-keyword">return</span> root</code></pre>
 
-
-<p>“面试题27. 二叉树的镜像” 和这个是一个题，这次自己写的轻松。 这题前中后序遍历完全一样</p>
+<p>官方还有O(n)时间复杂度的答案，留待以后看吧</p>
 
             </article>
             <hr>
@@ -271,18 +269,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/12/leetcode-55/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 55 - I. 二叉树的深度</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/12/leetcode-155/">
-                        <span class="hidden-mobile">Leetcode 155 - 最小栈</span>
+                      <a href="/2020/05/13/leetcode-124/">
+                        <span class="hidden-mobile">Leetcode 124 - 二叉树中的最大路径和</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -422,7 +414,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 226 -&nbsp;",
+        "Leetcode 105 - 从前序与中序遍历序列构造二叉树&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

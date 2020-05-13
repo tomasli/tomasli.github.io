@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 55 - I. 二叉树的深度(未完待续) - Tomas&#39; blog</title>
+  <title>Leetcode 55 - I. 二叉树的深度 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    273 字
+                    380 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    3
+                    5
                      分钟
                   </span>
                 
@@ -243,7 +243,25 @@
 
         <span class="hljs-keyword">return</span> max_depth</code></pre>
 
-<p>题解看了看，原来有想多了。迭代就是上层为下层左右子树大的那个+1</p>
+<p>题解看了看，原来有想多了。迭代就是上层为下层左右子树大的那个+1。 后序遍历，完全不需要保存所有分支的深度</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxDepth</span><span class="hljs-params">(self, root: TreeNode)</span> -&gt; int:</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root: <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+        <span class="hljs-keyword">return</span> max(self.maxDepth(root.left), self.maxDepth(root.right)) + <span class="hljs-number">1</span></code></pre>
+
+<p>层序遍历也难不哪去，就看能不能想到意识到</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxDepth</span><span class="hljs-params">(self, root: TreeNode)</span> -&gt; int:</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root: <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+        queue, res = [root], <span class="hljs-number">0</span>
+        <span class="hljs-keyword">while</span> queue:
+            tmp = []
+            <span class="hljs-keyword">for</span> node <span class="hljs-keyword">in</span> queue:
+                <span class="hljs-keyword">if</span> node.left: tmp.append(node.left)
+                <span class="hljs-keyword">if</span> node.right: tmp.append(node.right)
+            queue = tmp
+            res += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">return</span> res</code></pre>
 
             </article>
             <hr>
@@ -266,6 +284,12 @@
                 <div class="post-prevnext row">
                   <div class="post-prev col-6">
                     
+                    
+                      <a href="/2020/05/13/leetcode-102/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Leetcode 102 - 二叉树的层序遍历</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </div>
                   <div class="post-next col-6">
@@ -412,7 +436,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 55 - I. 二叉树的深度(未完待续)&nbsp;",
+        "Leetcode 55 - I. 二叉树的深度&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

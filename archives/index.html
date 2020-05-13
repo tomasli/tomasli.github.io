@@ -149,15 +149,33 @@
                 
 
 <div class="list-group">
-  <p class="h4">共计 8 篇文章</p>
+  <p class="h4">共计 11 篇文章</p>
   <hr>
   
     
       
       <p class="h5">2020</p>
     
+    <a href="/2020/05/13/leetcode-105/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Leetcode 105 - 从前序与中序遍历序列构造二叉树</span>
+      <span style="float: right;">05-13</span>
+    </a>
+  
+    
+    <a href="/2020/05/13/leetcode-124/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Leetcode 124 - 二叉树中的最大路径和</span>
+      <span style="float: right;">05-13</span>
+    </a>
+  
+    
+    <a href="/2020/05/13/leetcode-102/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Leetcode 102 - 二叉树的层序遍历</span>
+      <span style="float: right;">05-13</span>
+    </a>
+  
+    
     <a href="/2020/05/12/leetcode-55/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 55 - I. 二叉树的深度(未完待续)</span>
+      <span class="archive-post-title">Leetcode 55 - I. 二叉树的深度</span>
       <span style="float: right;">05-12</span>
     </a>
   
@@ -197,13 +215,19 @@
       <span style="float: right;">05-09</span>
     </a>
   
-    
-    <a href="/2020/05/09/hello-world/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Hello World</span>
-      <span style="float: right;">05-09</span>
-    </a>
-  
 </div>
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
 
 
 
