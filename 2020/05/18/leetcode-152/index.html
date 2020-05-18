@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 560 - 和为K的子数组 - Tomas&#39; blog</title>
+  <title>Leetcode 152 - 乘积最大子数组 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,8 +132,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-15 17:11">
-                    2020年5月15日 下午
+                  <time datetime="2020-05-18 14:39">
+                    2020年5月18日 下午
                   </time>
                 </div>
               
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    1.1k 字
+                    567 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    14
+                    7
                      分钟
                   </span>
                 
@@ -183,126 +183,59 @@
             
             <article class="markdown-body">
               <p>题目：</p>
-<pre><code class="hljs quote">给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。</code></pre>
+<pre><code class="hljs quote">给你一个整数数组 nums ，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。</code></pre>
 
-<p>先想到快慢指针问题。<br>如果快慢指针区间数和等于k，res+1。慢指针不动快指针动，如果大于k，慢指针动(如果满指针赶上快指针，一块动)，直到再次小于等于k，快指针继续。终结条件是快指针走到头且区间数和&lt;k，结束。</p>
-<p>sums中可能有负数的，这个写法默认所有值为正整数，玩不转。这路子我只能想到O(n^2)全覆盖了，暴力</p>
+<p>前几天有做过一道和为k的字符串字串个数的题，已经模糊了回忆一下。用的前缀和创建的字典来降维的。这里是否是用前缀乘积？好像不是，因为这是极值，不是求个数<br>子数组可能不止一个，不过乘积相同返回结果就行，也没差</p>
+<p>每轮迭代，nums[:i+1]中所有可能组合的最大值<br>reduce忘了用法，再记一次：reduce(lambda x, y: x+y, nums[slow_pointer:fast_pointer+1])</p>
+<p>暴力法，时间超出限制，意料之中：</p>
 <pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">subarraySum</span><span class="hljs-params">(self, nums, k)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(self, nums)</span>:</span>
         <span class="hljs-string">"""</span>
 <span class="hljs-string">        :type nums: List[int]</span>
-<span class="hljs-string">        :type k: int</span>
 <span class="hljs-string">        :rtype: int</span>
 <span class="hljs-string">        """</span>
-        fast_pointer = <span class="hljs-number">0</span>
-        slow_pointer = <span class="hljs-number">0</span>
-        res = <span class="hljs-number">0</span>
-        <span class="hljs-keyword">while</span> fast_pointer &lt; len(nums):
-            current_sum = reduce(<span class="hljs-keyword">lambda</span> x, y: x+y, nums[slow_pointer:fast_pointer+<span class="hljs-number">1</span>])
-            <span class="hljs-keyword">print</span> str(current_sum) + <span class="hljs-string">"====="</span> + str(slow_pointer) + <span class="hljs-string">"====="</span> + str(fast_pointer)
-            <span class="hljs-keyword">if</span> current_sum == k:
-                res += <span class="hljs-number">1</span>
-                fast_pointer += <span class="hljs-number">1</span>
-            <span class="hljs-keyword">elif</span> current_sum &gt; k:
-                slow_pointer += <span class="hljs-number">1</span>
-                <span class="hljs-keyword">if</span> slow_pointer &gt; fast_pointer:
-                    fast_pointer += <span class="hljs-number">1</span>
-            <span class="hljs-keyword">elif</span> current_sum &lt; k:
-                fast_pointer += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:
+            <span class="hljs-keyword">return</span>
 
-        <span class="hljs-keyword">return</span> res</code></pre>
+        res = float(<span class="hljs-string">"-inf"</span>)
 
-<h2 id="暴力了，大力出奇迹。时间都溢出了"><a href="#暴力了，大力出奇迹。时间都溢出了" class="headerlink" title="暴力了，大力出奇迹。时间都溢出了"></a>暴力了，大力出奇迹。时间都溢出了</h2><p>中间结果会多次计算，独立子问题，动态规划？但是这题又不是求最值的。 问题也不独立啊<br>暴力解超时。还有sum多一维，O(n^3).其实这个也可以用前缀和降维一次，但是leetcode仍然超时，算了</p>
-<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">subarraySum</span><span class="hljs-params">(self, nums, k)</span>:</span>
-        <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type nums: List[int]</span>
-<span class="hljs-string">        :type k: int</span>
-<span class="hljs-string">        :rtype: int</span>
-<span class="hljs-string">        """</span>
-        res = <span class="hljs-number">0</span>
-
-        <span class="hljs-keyword">for</span> fast_pointer <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(nums), <span class="hljs-number">1</span>):
-            <span class="hljs-keyword">for</span> slow_pointer <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, fast_pointer + <span class="hljs-number">1</span>, <span class="hljs-number">1</span>):
-                <span class="hljs-keyword">if</span> sum(nums[slow_pointer:fast_pointer+<span class="hljs-number">1</span>]) == k:
-                    res += <span class="hljs-number">1</span>
-
-        <span class="hljs-keyword">return</span> res</code></pre>
-
-<p>想不到，看提示了<br>sum(i,j)=sum(0,j)-sum(0,i) 和 dict<br>脑子不灵想不到这一层。隐约知道中间结果可以字典存存，但是想不出怎么用。照着这个思路来试写，改来改去没改对<br>错误解</p>
-<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">subarraySum</span><span class="hljs-params">(self, nums, k)</span>:</span>
-        <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type nums: List[int]</span>
-<span class="hljs-string">        :type k: int</span>
-<span class="hljs-string">        :rtype: int</span>
-<span class="hljs-string">        """</span>
-        res = <span class="hljs-number">0</span>
-        holder= &#123;&#125;
-
-        holder[<span class="hljs-number">-1</span>] = <span class="hljs-number">0</span>
         <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(nums), <span class="hljs-number">1</span>):
-            holder[i] = sum(nums[:i+<span class="hljs-number">1</span>])
-        <span class="hljs-keyword">print</span> holder
-
-        <span class="hljs-keyword">for</span> fast_pointer <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(nums), <span class="hljs-number">1</span>):
-            <span class="hljs-keyword">for</span> slow_pointer <span class="hljs-keyword">in</span> range(<span class="hljs-number">-1</span>, fast_pointer, <span class="hljs-number">1</span>):
-                <span class="hljs-keyword">print</span> str(slow_pointer) + <span class="hljs-string">"====="</span> + str(fast_pointer)
-                <span class="hljs-keyword">if</span> holder[fast_pointer]-holder[slow_pointer] == k:
-                    <span class="hljs-keyword">print</span> <span class="hljs-string">"record: "</span> + str(holder[fast_pointer]) + <span class="hljs-string">"====="</span> + str(holder[slow_pointer])
-                    res += <span class="hljs-number">1</span>
+            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, i+<span class="hljs-number">1</span>, <span class="hljs-number">1</span>):
+                <span class="hljs-comment"># res = max(res, reduce(m*n for m, n in nums[j:i+1])) 忘了怎么用reduce了</span>
+                res = max(res, reduce(<span class="hljs-keyword">lambda</span> m, n: m*n, nums[j:i+<span class="hljs-number">1</span>]))
 
         <span class="hljs-keyword">return</span> res</code></pre>
 
-<p>只能答案了。答案看了一大顿也半懂不懂的。绕死了，不过当天打卡题，硬着头皮看懂了，大半天哎</p>
-<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">subarraySum</span><span class="hljs-params">(self, nums: List[int], k: int)</span> -&gt; int:</span>
-        pre = <span class="hljs-number">0</span>
-        count = <span class="hljs-number">0</span>
-        <span class="hljs-comment"># 以前缀和为key，以前缀和key出现的次数为value。比如[1,2,1,-1], 前缀和3的情况次数2，这样再往后的连续字串有两种取法，包括和不包括[1,-1]结果都一样，结果该+2</span>
-        <span class="hljs-comment"># 初始化的意义是，sum([:n])-k==0, 这样字串从头算到n正好是k的串，结果可以+1.当然后续迭代前缀和又等于0了，dic[0]也要自加1的</span>
-        dic = &#123;<span class="hljs-number">0</span>:<span class="hljs-number">1</span>&#125;
-        <span class="hljs-comment"># 每轮统计，以第一个元素开始该轮元素结尾的子串前缀和 - k = 一个值</span>
-        <span class="hljs-comment"># 这个值在之前轮次计算子串组合中，有几种组合方式，去字典中找。 找到总结果就该加几</span>
-        <span class="hljs-comment"># 当前轮次的前缀和在字典中的v值+1，如不存在就加个新k</span>
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> nums:
-            <span class="hljs-comment"># 每轮只记录这一轮的前缀和</span>
-            pre += i
-            <span class="hljs-keyword">if</span> (pre-k) <span class="hljs-keyword">in</span> dic:
-                count += dic[pre-k]
-            dic[pre] = dic.get(pre,<span class="hljs-number">0</span>) + <span class="hljs-number">1</span>
-        <span class="hljs-keyword">return</span> count</code></pre>
+<p>看答案前，想到了正负值情况要分别处理，因为当前值如果是负的，则乘积会把之前循环的最小值变成最大的<br>也想到了，当前最大值，为前一循环最大值*当前值和当前值两个里边大的那个。但是其实里边是两层逻辑，这里少考虑了一层<br>正确思考方向是：</p>
+<ol>
+<li>当前循环求的是以包括当前值在内(作为子数组尾部)的最大子数组，该数组是前一循环最大子数组*当前值，和当前值两个中大的那一个；</li>
+<li>要求的最终结果，是当前循环最大子数组的结果，和之前所有循环最大子数组结果里最大那个，两个中大的</li>
+</ol>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(self, nums)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type nums: List[int]</span>
+<span class="hljs-string">        :rtype: int</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:
+            <span class="hljs-keyword">return</span>
 
-<p>另外抄一个说明多一点的方便理解</p>
-<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">subarraySum</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums, <span class="hljs-keyword">int</span> k)</span> </span>&#123;
-        <span class="hljs-comment">// hash</span>
-        <span class="hljs-comment">// 记录合适的连续字符串数量</span>
-        <span class="hljs-keyword">int</span> count=<span class="hljs-number">0</span>;
-        <span class="hljs-comment">// 记录前面数字相加之和</span>
-        <span class="hljs-keyword">int</span> pre=<span class="hljs-number">0</span>;
-        <span class="hljs-comment">// map记录前几个数字之和为K出现相同和的次数为V</span>
-        HashMap&lt;Integer,Integer&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
-        <span class="hljs-comment">// 初始化</span>
-        map.put(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>);
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) &#123;
-            pre+= nums[i];
-            <span class="hljs-comment">// 如果前面数字之和加上这个数字正好等于K（存在一个数字加上nums[i]结果为K</span>
-            <span class="hljs-comment">// 说明找到了</span>
-            <span class="hljs-keyword">if</span> (map.containsKey(pre-k))&#123;
-                <span class="hljs-comment">// 累计</span>
-                count+=map.get(pre-k);
-            &#125;
-            <span class="hljs-comment">// 计算新的和放入map</span>
-            map.put(pre,map.getOrDefault(pre,<span class="hljs-number">0</span>)+<span class="hljs-number">1</span>);
-        &#125;
-        <span class="hljs-keyword">return</span> count;
-    &#125;</code></pre>
+        res = float(<span class="hljs-string">"-inf"</span>)
 
-<p>抄来一些别人的讲解：</p>
-<pre><code class="hljs quote">前缀和：这个优化主要是用来在O（1）时间内求出一个序列a中,a[i]+a[i+1]+……+a[j]的和。
-核心就两个字：降维。
-面对许多高维问题，往往前缀和是最先想到的降维方法。 
-这样在降维的基础上，许多更进一步的优化才能实现。</code></pre>
+        imax = <span class="hljs-number">1</span>
+        imin = <span class="hljs-number">1</span>
+
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(nums), <span class="hljs-number">1</span>):
+            <span class="hljs-keyword">if</span> nums[i] &lt; <span class="hljs-number">0</span>:
+                imax, imin = imin, imax
+            
+            <span class="hljs-comment"># 这里纠结了好一会儿，没想明白前一循环imax就是一定包含nums[i-1]的，和nums[i]一定相邻</span>
+            imax = max(imax*nums[i], nums[i])
+            imin = min(imin*nums[i], nums[i])
+
+            res = max(res, imax)
+
+        <span class="hljs-keyword">return</span> res</code></pre>
 
             </article>
             <hr>
@@ -326,18 +259,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/15/leetcode-496/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 496 - 下一个更大元素 I</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/14/leetcode-136/">
-                        <span class="hidden-mobile">Leetcode 136 - 只出现一次的数字</span>
+                      <a href="/2020/05/15/leetcode-496/">
+                        <span class="hidden-mobile">Leetcode 496 - 下一个更大元素 I</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -477,7 +404,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 560 - 和为K的子数组&nbsp;",
+        "Leetcode 152 - 乘积最大子数组&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
