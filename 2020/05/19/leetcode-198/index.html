@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 121 - 买卖股票的最佳时机 - Tomas&#39; blog</title>
+  <title>Leetcode 198 - 打家劫舍 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,7 +132,7 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-19 19:56">
+                  <time datetime="2020-05-19 21:02">
                     2020年5月19日 晚上
                   </time>
                 </div>
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    637 字
+                    764 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    8
+                    11
                      分钟
                   </span>
                 
@@ -183,53 +183,84 @@
             
             <article class="markdown-body">
               <p>题目：</p>
-<pre><code class="hljs quote">给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+<pre><code class="hljs quote">你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
 
-如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。
+给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，能够偷窃到的最高金额。</code></pre>
 
-注意：你不能在买入股票前卖出股票。</code></pre>
-
-<p>碰上了刚看的股票买卖问题啦，做这道最简单的<br>状态：当前是第i天，是否持有股票<br>dp定义：dp[i][0,1] 第i天持有(不持有)股票的最大利润<br>选择：dp[i][0] 可以选择买入；dp[i][1] 可以选择卖出<br>状态转换方程 :</p>
-<ol>
-<li>dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i]) 继续保持之前的最大利润，或尝试卖出之前股票获得的最大利润</li>
-<li>dp[i][1] = max(dp[i-1][1], - prices[i]) 继续保持之前买股票的支出，或者这一天的支出小于之前天的，就更新<br>终结状态：dp[len(prices)-1][0]<br>base case:</li>
-<li>dp[0][0,1] = 0 这里没有第0天的概念，不该有值</li>
-<li>dp[1][0] = 0 第一天不可能有利润的，不够时间买卖；dp[1][1]=-prices[0] 第一天直接卖钱</li>
-</ol>
+<p>状态：当前屋号i 0&lt;=i&lt;len(nums)<br>选择：选择偷下一间屋子<br>dp定义：dp[i] 偷包括i号屋在内，能偷到的最大金额<br>状态转移方程：dp[i] = dp[i-2] + nums[i]   dp[i-1]不要，因为必须隔着来偷<br>终结状态两个：dp[len(nums)-1], dp[len(nums)-2]里边大的，因为nums长度不确定<br>起始状态：dp[0]=nums[0] dp[1]=max(nums[0], nums[1])</p>
 <pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxProfit</span><span class="hljs-params">(self, prices)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rob</span><span class="hljs-params">(self, nums)</span>:</span>
         <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type prices: List[int]</span>
+<span class="hljs-string">        :type nums: List[int]</span>
 <span class="hljs-string">        :rtype: int</span>
 <span class="hljs-string">        """</span>
-        
-        <span class="hljs-keyword">if</span> len(prices) &lt;= <span class="hljs-number">1</span>:
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:
             <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">1</span>:
+            <span class="hljs-keyword">return</span> nums[<span class="hljs-number">0</span>]
+        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">2</span>:
+            <span class="hljs-keyword">return</span> max(nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">1</span>])
 
-        <span class="hljs-comment">## 二维数组全部初始化为0的写法</span>
-        <span class="hljs-comment">## dp = [[0,0]*(len(prices)+1)]</span>
-        <span class="hljs-comment">## 这个写法导致dp为 [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]</span>
-        <span class="hljs-comment">## 这个写法导致内部所有的[0,0]元素，指向了一个地址，下边迭代会一改全改</span>
-        <span class="hljs-comment">## dp = [[0,0]]*(len(prices)+1)</span>
-        <span class="hljs-comment">## 要通过循环来创建</span>
-        dp = [[<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> range(<span class="hljs-number">2</span>)] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(prices)+<span class="hljs-number">1</span>)]
-        <span class="hljs-comment">## 第一天直接卖钱</span>
-        dp[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>]=-prices[<span class="hljs-number">0</span>]
+        dp = [<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nums))]
+        <span class="hljs-comment">## 上边写下边忘</span>
+        dp[<span class="hljs-number">0</span>]=nums[<span class="hljs-number">0</span>]
+        dp[<span class="hljs-number">1</span>]=max(nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">1</span>])
 
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">2</span>, len(nums), <span class="hljs-number">1</span>):
+            dp[i] = dp[i<span class="hljs-number">-2</span>] + nums[i]
 
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">2</span>, len(prices)+<span class="hljs-number">1</span>, <span class="hljs-number">1</span>):
-            <span class="hljs-comment">## prices状态搞错了。当前状态为上一个状态转换来的</span>
-            <span class="hljs-comment"># dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])</span>
-            <span class="hljs-comment"># dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i])</span>
-            dp[i][<span class="hljs-number">0</span>] = max(dp[i<span class="hljs-number">-1</span>][<span class="hljs-number">0</span>], dp[i<span class="hljs-number">-1</span>][<span class="hljs-number">1</span>] + prices[i<span class="hljs-number">-1</span>])
-            <span class="hljs-comment">## k最大交易次数忘了，这里k属于[0,1],不能进行多次交易的。死抄答案要死。 dp[i-1][0] - prices[i-1]不需要，是因为只交易一次，没有二次交易存在，所以不需在老利润基础上搞事情</span>
-            <span class="hljs-comment">## dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i-1])</span>
-            dp[i][<span class="hljs-number">1</span>] = max(dp[i<span class="hljs-number">-1</span>][<span class="hljs-number">1</span>], - prices[i<span class="hljs-number">-1</span>])
+        <span class="hljs-keyword">return</span> max(dp[len(nums)<span class="hljs-number">-1</span>], dp[len(nums)<span class="hljs-number">-2</span>])</code></pre>
 
-        <span class="hljs-keyword">return</span> dp[<span class="hljs-number">-1</span>][<span class="hljs-number">0</span>]</code></pre>
+<p>这写法只能应付交错排布，不能解决其它问题。比如：<br>[1,3,1,3,100]<br>重写算法</p>
+<p>状态：当前屋号i 0&lt;=i&lt;len(nums)<br>选择：选择偷下一间屋子<br>dp定义：dp[i] 偷包括i号屋在内，能偷到的最大金额<br>状态转移方程：dp[i] = max(dp[i-2], dp[i-3]) + nums[i]   dp[i-1]不要，因为必须隔着来偷<br>终结状态两个：dp[len(nums)-1], dp[len(nums)-2]里边大的，因为nums长度不确定, 大值不一定落到哪个上了<br>起始状态：dp[0]=nums[0] dp[1]=max(nums[0], nums[1]) dp[2]=max(nums[0]+nums[2], nums[1])</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rob</span><span class="hljs-params">(self, nums)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type nums: List[int]</span>
+<span class="hljs-string">        :rtype: int</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">1</span>:
+            <span class="hljs-keyword">return</span> nums[<span class="hljs-number">0</span>]
+        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">2</span>:
+            <span class="hljs-keyword">return</span> max(nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">1</span>])
+        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">3</span>:
+            <span class="hljs-comment"># 下边的官方推导公式我已经写出来了，但是没意识到</span>
+            <span class="hljs-keyword">return</span> max(nums[<span class="hljs-number">0</span>]+nums[<span class="hljs-number">2</span>], nums[<span class="hljs-number">1</span>])
 
-<p>做个题艰难得要命<br><a href="https://blog.csdn.net/qq_32799915/article/details/86520438" target="_blank" rel="noopener">同样被初始化坑了的同学</a></p>
+        dp = [<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nums))]
+        dp[<span class="hljs-number">0</span>]=nums[<span class="hljs-number">0</span>]
+        dp[<span class="hljs-number">1</span>]=max(nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">1</span>])
+        dp[<span class="hljs-number">2</span>]=max(nums[<span class="hljs-number">0</span>]+nums[<span class="hljs-number">2</span>], nums[<span class="hljs-number">1</span>])
 
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">3</span>, len(nums), <span class="hljs-number">1</span>):
+            dp[i] = max(dp[i<span class="hljs-number">-2</span>], dp[i<span class="hljs-number">-3</span>]) + nums[i]
+
+        <span class="hljs-keyword">return</span> max(dp[len(nums)<span class="hljs-number">-1</span>], dp[len(nums)<span class="hljs-number">-2</span>])</code></pre>
+
+<p>官方的推导公式 dp[i] = max(dp[i-2] + nums[i], dp[i-1]), 试试<br>这个dp[i]的定义是偷到i屋的最大价值，不一定包括i屋在内<br>终结状态：dp[i]<br>起始状态：dp[0]=nums[0] dp[1]=max(nums[0], nums[1])</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rob</span><span class="hljs-params">(self, nums)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type nums: List[int]</span>
+<span class="hljs-string">        :rtype: int</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">1</span>:
+            <span class="hljs-keyword">return</span> nums[<span class="hljs-number">0</span>]
+        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">2</span>:
+            <span class="hljs-keyword">return</span> max(nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">1</span>])
+
+        dp = [<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nums))]
+        dp[<span class="hljs-number">0</span>]=nums[<span class="hljs-number">0</span>]
+        dp[<span class="hljs-number">1</span>]=max(nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">1</span>])
+
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">2</span>, len(nums), <span class="hljs-number">1</span>):
+            dp[i] = max(dp[i<span class="hljs-number">-2</span>] + nums[i], dp[i<span class="hljs-number">-1</span>])
+
+        <span class="hljs-keyword">return</span> dp[i]</code></pre>
             </article>
             <hr>
             <div>
@@ -252,18 +283,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/19/leetcode-198/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 198 - 打家劫舍</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/19/leetcode-70/">
-                        <span class="hidden-mobile">Leetcode 70 - 爬楼梯</span>
+                      <a href="/2020/05/19/leetcode-121/">
+                        <span class="hidden-mobile">Leetcode 121 - 买卖股票的最佳时机</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -403,7 +428,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 121 - 买卖股票的最佳时机&nbsp;",
+        "Leetcode 198 - 打家劫舍&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
