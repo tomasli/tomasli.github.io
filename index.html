@@ -157,6 +157,125 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/19/leetcode-121/">Leetcode 121 - 买卖股票的最佳时机</a>
+
+      <a href="/2020/05/19/leetcode-121/" class="index-excerpt">
+        
+        
+          
+        
+        <div>题目：
+给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+
+如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。
+
+注意：你不能在买入股票前卖出股票。
+
+碰上了刚看的股票买卖问题啦，做这道最简单的状态：当前是第i天，是否持有股票dp定义：dp[i][0,1] 第i天持有(不持有)股票的最大利润选择：dp[i][0] 可以选择买入；dp[</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Leetcode/">Leetcode</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/19/leetcode-70/">Leetcode 70 - 爬楼梯</a>
+
+      <a href="/2020/05/19/leetcode-70/" class="index-excerpt">
+        
+        
+          
+        
+        <div>题目：
+假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+注意：给定 n 是一个正整数。
+
+现在有点挫败感，动态规划的模板不好套啊。还是从简单的搞起来，过几道，不会的跳过做出两个再说状态：当前在第i阶，0&lt;=i&lt;=n选择：向上1或2阶dp(i)含义：到第i阶时的走法总和终结态：dp(n-1)状态转换方程：dp(i) </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Leetcode/">Leetcode</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/19/leetcode-680/">Leetcode 680 - 验证回文字符串 Ⅱ</a>
+
+      <a href="/2020/05/19/leetcode-680/" class="index-excerpt">
+        
+        
+          
+        
+        <div>题目：
+给定一个非空字符串 s，最多删除一个字符。判断是否能成为回文字符串。
+
+双指针玩法，从两头向中间走，最多跳过一个字符。为什么不从中间往两头走，因为这个串的二分查找中点起始状态有点难判断
+class Solution(object):
+    def validPalindrome(self, s):
+        """
+        :type s: str
+        :rty</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Leetcode/">Leetcode</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2020/05/18/leetcode-152/">Leetcode 152 - 乘积最大子数组</a>
 
       <a href="/2020/05/18/leetcode-152/" class="index-excerpt">
@@ -417,133 +536,6 @@ class Solution(object):
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>&nbsp;2020-05-13
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Leetcode/">Leetcode</a>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/12/leetcode-55/">Leetcode 55 - I. 二叉树的深度</a>
-
-      <a href="/2020/05/12/leetcode-55/" class="index-excerpt">
-        
-        
-          
-        
-        <div>这递归解法仿照了另个做不出来的题的答案：返回所有到根节点路线的list共同点是都要对整个树遍历才能判断最值
-class Solution(object):
-    def maxDepth(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-
-        depths = [</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-12
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Leetcode/">Leetcode</a>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/12/leetcode-226/">Leetcode 226 -</a>
-
-      <a href="/2020/05/12/leetcode-226/" class="index-excerpt">
-        
-        
-          
-        
-        <div>题目：
-翻转一棵二叉树。
-
-自己的递归解法，也有很多可优化的点
-class Solution(object):
-    def invertTree(self, root):
-        """
-        :type root: TreeNode
-        :rtype: TreeNode
-        """
-        # Python要把方法引用放到方法定义后边
-   </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-12
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Leetcode/">Leetcode</a>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/12/leetcode-155/">Leetcode 155 - 最小栈</a>
-
-      <a href="/2020/05/12/leetcode-155/" class="index-excerpt">
-        
-        
-          
-        
-        <div>题目：
-设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
-
-push(x) —— 将元素 x 推入栈中。
-pop() —— 删除栈顶的元素。
-top() —— 获取栈顶元素。
-getMin() —— 检索栈中的最小元素。
-
-这道题的官方解法是用两个栈来实现这个栈，这有微妙
-我自己实现用的链表，其实拿普通列表实现可以的，把节点放在最后一位的位置，记住当前坐标。用</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-12
           </div>
         
         

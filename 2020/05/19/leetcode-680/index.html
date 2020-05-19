@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 152 - 乘积最大子数组 - Tomas&#39; blog</title>
+  <title>Leetcode 680 - 验证回文字符串 Ⅱ - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,8 +132,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-18 14:39">
-                    2020年5月18日 下午
+                  <time datetime="2020-05-19 11:43">
+                    2020年5月19日 中午
                   </time>
                 </div>
               
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    567 字
+                    547 字
                   </span>
                 
 
@@ -183,59 +183,95 @@
             
             <article class="markdown-body">
               <p>题目：</p>
-<pre><code class="hljs quote">给你一个整数数组 nums ，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。</code></pre>
+<pre><code class="hljs quote">给定一个非空字符串 s，最多删除一个字符。判断是否能成为回文字符串。</code></pre>
 
-<p>前几天有做过一道和为k的字符串字串个数的题，已经模糊了回忆一下。用的前缀和创建的字典来降维的。这里是否是用前缀乘积？好像不是，因为这是极值，不是求个数<br>子数组可能不止一个，不过乘积相同返回结果就行，也没差</p>
-<p>每轮迭代，nums[:i+1]中所有可能组合的最大值<br>reduce忘了用法，再记一次：reduce(lambda x, y: x+y, nums[slow_pointer:fast_pointer+1])</p>
-<p>暴力法，时间超出限制，意料之中：</p>
+<p>双指针玩法，从两头向中间走，最多跳过一个字符。为什么不从中间往两头走，因为这个串的二分查找中点起始状态有点难判断</p>
 <pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(self, nums)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">validPalindrome</span><span class="hljs-params">(self, s)</span>:</span>
         <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type nums: List[int]</span>
-<span class="hljs-string">        :rtype: int</span>
+<span class="hljs-string">        :type s: str</span>
+<span class="hljs-string">        :rtype: bool</span>
 <span class="hljs-string">        """</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:
-            <span class="hljs-keyword">return</span>
+        pointer = <span class="hljs-number">0</span>
+        delete_times = <span class="hljs-number">0</span>
+        offset_right = <span class="hljs-number">0</span>
+        offset_left = <span class="hljs-number">0</span>
 
-        res = float(<span class="hljs-string">"-inf"</span>)
+        <span class="hljs-comment"># 这个判断条件不用管奇偶了。用的下标所以多减1</span>
+        <span class="hljs-keyword">while</span> pointer &lt;= len(s)<span class="hljs-number">-1</span>-pointer:
+            <span class="hljs-keyword">if</span> s[pointer+offset_left] != s[len(s)<span class="hljs-number">-1</span>-pointer+offset_right]:
+                delete_times += <span class="hljs-number">1</span>
+                <span class="hljs-keyword">if</span> s[pointer] == s[len(s)<span class="hljs-number">-1</span>-pointer<span class="hljs-number">-1</span>]:
+                    offset_right = <span class="hljs-number">-1</span>
+                <span class="hljs-keyword">elif</span> s[pointer+<span class="hljs-number">1</span>] == s[len(s)<span class="hljs-number">-1</span>-pointer]:
+                    offset_left = <span class="hljs-number">1</span>
+                <span class="hljs-keyword">else</span>:
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
 
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(nums), <span class="hljs-number">1</span>):
-            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, i+<span class="hljs-number">1</span>, <span class="hljs-number">1</span>):
-                <span class="hljs-comment"># res = max(res, reduce(m*n for m, n in nums[j:i+1])) 忘了怎么用reduce了</span>
-                res = max(res, reduce(<span class="hljs-keyword">lambda</span> m, n: m*n, nums[j:i+<span class="hljs-number">1</span>]))
+            <span class="hljs-keyword">if</span> delete_times &gt; <span class="hljs-number">1</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
 
-        <span class="hljs-keyword">return</span> res</code></pre>
+            pointer += <span class="hljs-number">1</span>
 
-<p>看答案前，想到了正负值情况要分别处理，因为当前值如果是负的，则乘积会把之前循环的最小值变成最大的<br>也想到了，当前最大值，为前一循环最大值*当前值和当前值两个里边大的那个。但是其实里边是两层逻辑，这里少考虑了一层<br>正确思考方向是：</p>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span></code></pre>
+
+<p>以上解法错误。漏了情况。像下边的字串应该删左边的e，而不是右边的c。代码逻辑要大改<br>“ececabbacec”</p>
+<p>改造一下。两头走，找到不相同的位置，尝试左右两种删除方式的折半对比，都不行，就返回False，其它情况是True</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">validPalindrome</span><span class="hljs-params">(self, s)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type s: str</span>
+<span class="hljs-string">        :rtype: bool</span>
+<span class="hljs-string">        """</span>
+        pointer = <span class="hljs-number">0</span>
+        checkpoint = <span class="hljs-literal">None</span>
+
+        <span class="hljs-keyword">while</span> pointer &lt;= len(s)<span class="hljs-number">-1</span>-pointer:
+            <span class="hljs-keyword">if</span> s[pointer] != s[len(s)<span class="hljs-number">-1</span>-pointer]:
+                checkpoint = pointer
+                <span class="hljs-keyword">break</span>
+
+            pointer += <span class="hljs-number">1</span>
+
+        <span class="hljs-keyword">if</span> checkpoint == <span class="hljs-literal">None</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-comment"># 开始实验两种删除方法后，能否对比到底</span>
+            <span class="hljs-comment">## [:]闭开区间，闭区间是可以取的，开区间不包括端点</span>
+            try1 = list(s)[checkpoint:(len(s)<span class="hljs-number">-1</span>-checkpoint)]
+            try2 = list(s)[(checkpoint+<span class="hljs-number">1</span>):(len(s)-checkpoint)]
+            <span class="hljs-comment">## reverse()是没法进行这种计较的，用[::-1]反转列表</span>
+            <span class="hljs-comment"># if try1 == try1.reverse() or try2 == try2.reverse():</span>
+            <span class="hljs-keyword">if</span> try1 == try1[::<span class="hljs-number">-1</span>] <span class="hljs-keyword">or</span> try2 == try2[::<span class="hljs-number">-1</span>]:
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+            <span class="hljs-keyword">else</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span></code></pre>
+
+<p>我的答案速度才击败12%<br>正确答案和我思路一样。原来这种思考方式属于贪心算法。<br>看了之后的感觉：</p>
 <ol>
-<li>当前循环求的是以包括当前值在内(作为子数组尾部)的最大子数组，该数组是前一循环最大子数组*当前值，和当前值两个中大的那一个；</li>
-<li>要求的最终结果，是当前循环最大子数组的结果，和之前所有循环最大子数组结果里最大那个，两个中大的</li>
+<li>想到双指针了，还用单指针实现，啰嗦</li>
+<li>代码写的比较繁琐难读，像最后4行可以合并的</li>
+<li>后半去反转列表，当然效率低</li>
 </ol>
-<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(self, nums)</span>:</span>
-        <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type nums: List[int]</span>
-<span class="hljs-string">        :rtype: int</span>
-<span class="hljs-string">        """</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:
-            <span class="hljs-keyword">return</span>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">validPalindrome</span><span class="hljs-params">(self, s: str)</span> -&gt; bool:</span>
+        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">checkPalindrome</span><span class="hljs-params">(low, high)</span>:</span>
+            i, j = low, high
+            <span class="hljs-keyword">while</span> i &lt; j:
+                <span class="hljs-keyword">if</span> s[i] != s[j]:
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+                i += <span class="hljs-number">1</span>
+                j -= <span class="hljs-number">1</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
 
-        res = float(<span class="hljs-string">"-inf"</span>)
-
-        imax = <span class="hljs-number">1</span>
-        imin = <span class="hljs-number">1</span>
-
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(nums), <span class="hljs-number">1</span>):
-            <span class="hljs-keyword">if</span> nums[i] &lt; <span class="hljs-number">0</span>:
-                imax, imin = imin, imax
-            
-            <span class="hljs-comment"># 这里纠结了好一会儿，没想明白前一循环imax就是一定包含nums[i-1]的，和nums[i]一定相邻</span>
-            imax = max(imax*nums[i], nums[i])
-            imin = min(imin*nums[i], nums[i])
-
-            res = max(res, imax)
-
-        <span class="hljs-keyword">return</span> res</code></pre>
+        low, high = <span class="hljs-number">0</span>, len(s) - <span class="hljs-number">1</span>
+        <span class="hljs-keyword">while</span> low &lt; high:
+            <span class="hljs-keyword">if</span> s[low] == s[high]: 
+                low += <span class="hljs-number">1</span>
+                high -= <span class="hljs-number">1</span>
+            <span class="hljs-keyword">else</span>:
+                <span class="hljs-keyword">return</span> checkPalindrome(low + <span class="hljs-number">1</span>, high) <span class="hljs-keyword">or</span> checkPalindrome(low, high - <span class="hljs-number">1</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span></code></pre>
 
             </article>
             <hr>
@@ -259,9 +295,9 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/19/leetcode-680/">
+                      <a href="/2020/05/19/leetcode-70/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 680 - 验证回文字符串 Ⅱ</span>
+                        <span class="hidden-mobile">Leetcode 70 - 爬楼梯</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -269,8 +305,8 @@
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/15/leetcode-496/">
-                        <span class="hidden-mobile">Leetcode 496 - 下一个更大元素 I</span>
+                      <a href="/2020/05/18/leetcode-152/">
+                        <span class="hidden-mobile">Leetcode 152 - 乘积最大子数组</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -410,7 +446,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 152 - 乘积最大子数组&nbsp;",
+        "Leetcode 680 - 验证回文字符串 Ⅱ&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
