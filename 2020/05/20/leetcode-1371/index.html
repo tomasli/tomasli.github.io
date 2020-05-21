@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 198 - 打家劫舍 - Tomas&#39; blog</title>
+  <title>Leetcode 1371 - 每个元音包含偶数次的最长子字符串 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,8 +132,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-19 21:02">
-                    2020年5月19日 晚上
+                  <time datetime="2020-05-20 19:31">
+                    2020年5月20日 晚上
                   </time>
                 </div>
               
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    764 字
+                    752 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    11
+                    9
                      分钟
                   </span>
                 
@@ -183,84 +183,64 @@
             
             <article class="markdown-body">
               <p>题目：</p>
-<pre><code class="hljs quote">你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
-
-给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，能够偷窃到的最高金额。</code></pre>
-
-<p>状态：当前屋号i 0&lt;=i&lt;len(nums)<br>选择：选择偷下一间屋子<br>dp定义：dp[i] 偷包括i号屋在内，能偷到的最大金额<br>状态转移方程：dp[i] = dp[i-2] + nums[i]   dp[i-1]不要，因为必须隔着来偷<br>终结状态两个：dp[len(nums)-1], dp[len(nums)-2]里边大的，因为nums长度不确定<br>起始状态：dp[0]=nums[0] dp[1]=max(nums[0], nums[1])</p>
+<pre><code class="hljs quote">给你一个字符串 s ，请你返回满足以下条件的最长子字符串的长度：每个元音字母，即 &#39;a&#39;，&#39;e&#39;，&#39;i&#39;，&#39;o&#39;，&#39;u&#39; ，在子字符串中都恰好出现了偶数次。</code></pre>
+<p>元音可以为0个<br>没有元音的s，最大长度为len(s)<br>以5位二进制串00000来保存aeiou元音在某个状态是奇数还是偶数</p>
+<p>状态：s的子串s, 其二进制串的值<br>选择：下一个子串<br>dp定义：dp[i][j], s的子串[i,j],其二进制串的值, 串为00000则该子串满足条件，记录到当前max<br>状态转移方程：<br>dp[i][j] = dp[i][j-1]^s[j]对应二进制数 , i&lt;=j  异或运算<br>初始状态： dp[0][0] = dict[s[0]] if dict[s[0]]<br>终结状态： 全部穷举完，max(j-i) and dp[i][j] = 00000<br>怎么感觉用不出动态规划套不进去，变成了两层循环，不过可以压到nlogn的样子</p>
+<p>不过二进制转换命令我也不会啊，这只能看答案了</p>
 <pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rob</span><span class="hljs-params">(self, nums)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findTheLongestSubstring</span><span class="hljs-params">(self, s)</span>:</span>
         <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type nums: List[int]</span>
+<span class="hljs-string">        :type s: str</span>
 <span class="hljs-string">        :rtype: int</span>
 <span class="hljs-string">        """</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:
-            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
-        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">1</span>:
-            <span class="hljs-keyword">return</span> nums[<span class="hljs-number">0</span>]
-        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">2</span>:
-            <span class="hljs-keyword">return</span> max(nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">1</span>])
 
-        dp = [<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nums))]
-        <span class="hljs-comment">## 上边写下边忘</span>
-        dp[<span class="hljs-number">0</span>]=nums[<span class="hljs-number">0</span>]
-        dp[<span class="hljs-number">1</span>]=max(nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">1</span>])
 
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">2</span>, len(nums), <span class="hljs-number">1</span>):
-            dp[i] = dp[i<span class="hljs-number">-2</span>] + nums[i]
+        dict = &#123;
+            <span class="hljs-string">'a'</span>: <span class="hljs-number">10000</span>,
+            <span class="hljs-string">'e'</span>: <span class="hljs-number">01000</span>,
+            <span class="hljs-string">'i'</span>: <span class="hljs-number">00100</span>,
+            <span class="hljs-string">'o'</span>: <span class="hljs-number">00010</span>,
+            <span class="hljs-string">'u'</span>: <span class="hljs-number">00001</span>
+        &#125;
 
-        <span class="hljs-keyword">return</span> max(dp[len(nums)<span class="hljs-number">-1</span>], dp[len(nums)<span class="hljs-number">-2</span>])</code></pre>
+        res = <span class="hljs-number">0</span>
+        dp = [[<span class="hljs-number">00000</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(s)] <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(s)]
 
-<p>这写法只能应付交错排布，不能解决其它问题。比如：<br>[1,3,1,3,100]<br>重写算法</p>
-<p>状态：当前屋号i 0&lt;=i&lt;len(nums)<br>选择：选择偷下一间屋子<br>dp定义：dp[i] 偷包括i号屋在内，能偷到的最大金额<br>状态转移方程：dp[i] = max(dp[i-2], dp[i-3]) + nums[i]   dp[i-1]不要，因为必须隔着来偷<br>终结状态两个：dp[len(nums)-1], dp[len(nums)-2]里边大的，因为nums长度不确定, 大值不一定落到哪个上了<br>起始状态：dp[0]=nums[0] dp[1]=max(nums[0], nums[1]) dp[2]=max(nums[0]+nums[2], nums[1])</p>
-<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rob</span><span class="hljs-params">(self, nums)</span>:</span>
-        <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type nums: List[int]</span>
-<span class="hljs-string">        :rtype: int</span>
-<span class="hljs-string">        """</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:
-            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
-        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">1</span>:
-            <span class="hljs-keyword">return</span> nums[<span class="hljs-number">0</span>]
-        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">2</span>:
-            <span class="hljs-keyword">return</span> max(nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">1</span>])
-        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">3</span>:
-            <span class="hljs-comment"># 下边的官方推导公式我已经写出来了，但是没意识到</span>
-            <span class="hljs-keyword">return</span> max(nums[<span class="hljs-number">0</span>]+nums[<span class="hljs-number">2</span>], nums[<span class="hljs-number">1</span>])
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(s):
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(j):</code></pre>
 
-        dp = [<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nums))]
-        dp[<span class="hljs-number">0</span>]=nums[<span class="hljs-number">0</span>]
-        dp[<span class="hljs-number">1</span>]=max(nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">1</span>])
-        dp[<span class="hljs-number">2</span>]=max(nums[<span class="hljs-number">0</span>]+nums[<span class="hljs-number">2</span>], nums[<span class="hljs-number">1</span>])
+<p>前缀和+二进制压缩，5位2进制数的十进制区间为[0,31], 所以建立一个包括32个[-1]list备用<br>我想到了用二进制代表元音，但没想到前缀和解法<br>前缀和：串[i,j] = 串[0,j] - 串[0,i]<br>我想到的是把五位二进制数作为二维数组值，但解法是把二进制数化为十进制作为数组坐标，数组值为特定元音组合的最小串长度</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findTheLongestSubstring</span><span class="hljs-params">(self, s)</span>:</span>
+        ans, status, n = <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, len(s)
+        <span class="hljs-comment"># &lt;&lt; 是位运算，把1向前移动5位，就是32</span>
+        pos = [<span class="hljs-number">-1</span>] * (<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">5</span>)
+        <span class="hljs-comment"># 初始化，默认最小值[00000]=0.开始第一位时候非元音，则答案就是1了。循环没法往pos[0]设置0</span>
+        pos[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>
 
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">3</span>, len(nums), <span class="hljs-number">1</span>):
-            dp[i] = max(dp[i<span class="hljs-number">-2</span>], dp[i<span class="hljs-number">-3</span>]) + nums[i]
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(n):
+            <span class="hljs-keyword">if</span> s[i] == <span class="hljs-string">'a'</span>:
+                <span class="hljs-comment"># ^ 异或运算，对应位不相等时结果为1，相等为0，status记录上一步元音出现的奇偶次数 </span>
+                status ^= <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">0</span>
+            <span class="hljs-keyword">elif</span> s[i] == <span class="hljs-string">'e'</span>:
+                status ^= <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">1</span>
+            <span class="hljs-keyword">elif</span> s[i] == <span class="hljs-string">'i'</span>:
+                status ^= <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">2</span>
+            <span class="hljs-keyword">elif</span> s[i] == <span class="hljs-string">'o'</span>:
+                status ^= <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">3</span>
+            <span class="hljs-keyword">elif</span> s[i] == <span class="hljs-string">'u'</span>:
+                status ^= <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">4</span>
+            <span class="hljs-comment"># 某前缀情况已经写入</span>
+            <span class="hljs-keyword">if</span> pos[status] != <span class="hljs-number">-1</span>:
+                <span class="hljs-comment"># 当前长度减去该情况最小长度。因为偶数-偶数=偶数，奇数-奇数=偶数，所以不用区别元音奇偶具体组成</span>
+                <span class="hljs-comment"># 把相同的奇偶组成情况相减，剩下的子串各元音个数必为偶数</span>
+                ans = max(ans, i + <span class="hljs-number">1</span> - pos[status])
+            <span class="hljs-comment"># 第一次遇见某前缀情况</span>
+            <span class="hljs-keyword">else</span>:
+                <span class="hljs-comment"># 记录该前缀情况作为该情况最小值就行，后边无需更新，因为要求最大值，就是最大值-最小值</span>
+                pos[status] = i + <span class="hljs-number">1</span>
+        <span class="hljs-keyword">return</span> ans</code></pre>
 
-        <span class="hljs-keyword">return</span> max(dp[len(nums)<span class="hljs-number">-1</span>], dp[len(nums)<span class="hljs-number">-2</span>])</code></pre>
-
-<p>官方的推导公式 dp[i] = max(dp[i-2] + nums[i], dp[i-1]), 试试<br>这个dp[i]的定义是偷到i屋的最大价值，不一定包括i屋在内<br>终结状态：dp[i]<br>起始状态：dp[0]=nums[0] dp[1]=max(nums[0], nums[1])</p>
-<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rob</span><span class="hljs-params">(self, nums)</span>:</span>
-        <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type nums: List[int]</span>
-<span class="hljs-string">        :rtype: int</span>
-<span class="hljs-string">        """</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:
-            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
-        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">1</span>:
-            <span class="hljs-keyword">return</span> nums[<span class="hljs-number">0</span>]
-        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">2</span>:
-            <span class="hljs-keyword">return</span> max(nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">1</span>])
-
-        dp = [<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nums))]
-        dp[<span class="hljs-number">0</span>]=nums[<span class="hljs-number">0</span>]
-        dp[<span class="hljs-number">1</span>]=max(nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">1</span>])
-
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">2</span>, len(nums), <span class="hljs-number">1</span>):
-            dp[i] = max(dp[i<span class="hljs-number">-2</span>] + nums[i], dp[i<span class="hljs-number">-1</span>])
-
-        <span class="hljs-keyword">return</span> dp[i]</code></pre>
             </article>
             <hr>
             <div>
@@ -283,9 +263,9 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/20/leetcode-1371/">
+                      <a href="/2020/05/21/leetcode-5/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 1371 - 每个元音包含偶数次的最长子字符串</span>
+                        <span class="hidden-mobile">Leetcode 5 - 最长回文子串</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -293,8 +273,8 @@
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/19/leetcode-121/">
-                        <span class="hidden-mobile">Leetcode 121 - 买卖股票的最佳时机</span>
+                      <a href="/2020/05/19/leetcode-198/">
+                        <span class="hidden-mobile">Leetcode 198 - 打家劫舍</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -434,7 +414,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 198 - 打家劫舍&nbsp;",
+        "Leetcode 1371 - 每个元音包含偶数次的最长子字符串&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
