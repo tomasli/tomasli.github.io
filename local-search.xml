@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Leetcode 107 - 二叉树的层次遍历 II</title>
+    <link href="/2020/05/21/leetcode-107/"/>
+    <url>/2020/05/21/leetcode-107/</url>
+    
+    <content type="html"><![CDATA[<p>题目：</p><pre><code class="hljs quote">给定一个二叉树，返回其节点值自底向上的层次遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）</code></pre><p>挺久没二叉树了，这道简单正好<br>二叉树先决定前中后序遍历，这个用前序好，从底向上的遍历就是从顶向下遍历反过来[::-1]<br>每层产生了第一个点就append进数组，底二个点就append进对应位置子数组。用个常量记录当前的层数<br>速度击败83%的用户，优化空间没必要看了，过了<br>目前来说做的最顺的一题，随便画画一想很快搞定了</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">levelOrderBottom</span><span class="hljs-params">(self, root)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type root: TreeNode</span><span class="hljs-string">        :rtype: List[List[int]]</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:            <span class="hljs-keyword">return</span> []        level = <span class="hljs-number">0</span>        list = []        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">nextLevel</span><span class="hljs-params">(level, node)</span>:</span>            <span class="hljs-keyword">if</span> len(list) &lt; level+<span class="hljs-number">1</span>:                list.append([node.val])            <span class="hljs-keyword">else</span>:                list[level].append(node.val)            <span class="hljs-keyword">if</span> node.left:                nextLevel(level+<span class="hljs-number">1</span>, node.left)            <span class="hljs-keyword">if</span> node.right:                nextLevel(level+<span class="hljs-number">1</span>, node.right)                nextLevel(level, root)        <span class="hljs-keyword">return</span> list[::<span class="hljs-number">-1</span>]</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Leetcode 5 - 最长回文子串</title>
     <link href="/2020/05/21/leetcode-5/"/>
     <url>/2020/05/21/leetcode-5/</url>
