@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 392 - 判断子序列 - Tomas&#39; blog</title>
+  <title>Leetcode 303 - 区域和检索 - 数组不可变 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,7 +132,7 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-21 19:15">
+                  <time datetime="2020-05-21 20:46">
                     2020年5月21日 晚上
                   </time>
                 </div>
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    223 字
+                    536 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    3
+                    8
                      分钟
                   </span>
                 
@@ -183,34 +183,99 @@
             
             <article class="markdown-body">
               <p>题目：</p>
-<pre><code class="hljs quote">给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
-你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~&#x3D; 500,000），而 s 是个短字符串（长度 &lt;&#x3D;100）。
-字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&quot;ace&quot;是&quot;abcde&quot;的一个子序列，而&quot;aec&quot;不是）。</code></pre>
+<pre><code class="hljs quote">给定一个整数数组  nums，求出数组从索引 i 到 j  (i ≤ j) 范围内元素的总和，包含 i,  j 两点。
+1. 你可以假设数组不可变。
+2. 会多次调用 sumRange 方法。</code></pre>
 
-<p>很简单的一个双指针吧，刚做过这个题的高难度版 </p>
-<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">isSubsequence</span><span class="hljs-params">(self, s, t)</span>:</span>
+<p>isinstance判断类型<br>直接相加超时</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NumArray</span><span class="hljs-params">(object)</span>:</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, nums)</span>:</span>
         <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type s: str</span>
-<span class="hljs-string">        :type t: str</span>
-<span class="hljs-string">        :rtype: bool</span>
+<span class="hljs-string">        :type nums: List[int]</span>
 <span class="hljs-string">        """</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> s:
-            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+        self.nums = nums
 
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> t <span class="hljs-keyword">or</span> len(s) &gt; len(t):
-            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sumRange</span><span class="hljs-params">(self, i, j)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type i: int</span>
+<span class="hljs-string">        :type j: int</span>
+<span class="hljs-string">        :rtype: int</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-comment">## 要验证格式</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> isinstance(i, int) <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> isinstance(j, int):
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
 
-        i, j = <span class="hljs-number">0</span>, <span class="hljs-number">0</span>
+        <span class="hljs-keyword">if</span> i &lt; <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> j &lt; i <span class="hljs-keyword">or</span> j &gt;=len(self.nums):
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+        
+        <span class="hljs-comment">## reduce又忘了用法了</span>
+        <span class="hljs-keyword">return</span> reduce(<span class="hljs-keyword">lambda</span> x, y: x+y, self.nums[i:j+<span class="hljs-number">1</span>])</code></pre>
 
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(t)):
-            <span class="hljs-keyword">if</span> t[i] == s[j]:
-                j += <span class="hljs-number">1</span>
-                <span class="hljs-comment">## z这个地方写成t了，st混了</span>
-                <span class="hljs-keyword">if</span> j &gt;= len(s):
-                    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+<p>忘了说明了，这意思是拿空间换时间咯，动态规划重写<br>这个就是前缀和呗<br>sum[i:j] = sum[0:j] - sum[0:i]<br>dp[i]定义：子串[0:i+1]的和<br>选择：加一个元素<br>动态规划方程：dp[i] = dp[i-1] + nums[i]<br>起始状态：dp[0] = nums[0]<br>终结状态：dp[len(nums)-1]</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NumArray</span><span class="hljs-params">(object)</span>:</span>
 
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span></code></pre>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, nums)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type nums: List[int]</span>
+<span class="hljs-string">        """</span>
+        self.nums = nums
+        self.dp = [<span class="hljs-number">0</span>] * len(nums)
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nums)):
+            <span class="hljs-keyword">if</span> i == <span class="hljs-number">0</span>:
+                self.dp[<span class="hljs-number">0</span>] = nums[<span class="hljs-number">0</span>]
+            <span class="hljs-keyword">else</span>:
+                self.dp[i] = self.dp[i<span class="hljs-number">-1</span>] + nums[i]
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sumRange</span><span class="hljs-params">(self, i, j)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type i: int</span>
+<span class="hljs-string">        :type j: int</span>
+<span class="hljs-string">        :rtype: int</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-comment">## 要验证格式</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> isinstance(i, int) <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> isinstance(j, int):
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+
+        <span class="hljs-keyword">if</span> i &lt; <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> j &lt; i <span class="hljs-keyword">or</span> j &gt;=len(self.nums):
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+        
+        <span class="hljs-comment">## 闭闭区间，包括j在内的</span>
+        <span class="hljs-keyword">return</span> self.dp[j]-self.dp[i]</code></pre>
+
+<p>相减的位置总差一位，改一下起始状态逻辑为：<br>dp[0] = 0<br>原来的问题在于，dp[0]用来存了第一个数组值，这样求[0:2]的和成了dp[2]-dp[0]，多减了sums[0]的值</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NumArray</span><span class="hljs-params">(object)</span>:</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, nums)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type nums: List[int]</span>
+<span class="hljs-string">        """</span>
+        self.nums = nums
+        self.dp = [<span class="hljs-number">0</span>] * (len(nums)+<span class="hljs-number">1</span>)
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nums)+<span class="hljs-number">1</span>):
+            <span class="hljs-keyword">if</span> i == <span class="hljs-number">0</span>:
+                self.dp[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">else</span>:
+                <span class="hljs-comment"># 这种状态转移也比较自然</span>
+                self.dp[i] = self.dp[i<span class="hljs-number">-1</span>] + nums[i<span class="hljs-number">-1</span>]
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sumRange</span><span class="hljs-params">(self, i, j)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type i: int</span>
+<span class="hljs-string">        :type j: int</span>
+<span class="hljs-string">        :rtype: int</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-comment">## 要验证格式</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> isinstance(i, int) <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> isinstance(j, int):
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+
+        <span class="hljs-keyword">if</span> i &lt; <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> j &lt; i <span class="hljs-keyword">or</span> j &gt;=len(self.nums):
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+        
+        <span class="hljs-comment">## 闭闭区间，包括j在内的</span>
+        <span class="hljs-keyword">return</span> self.dp[j+<span class="hljs-number">1</span>]-self.dp[i]</code></pre>
+
+<p>看似简单，在边界值上纠结了好一会儿</p>
 
             </article>
             <hr>
@@ -234,18 +299,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/21/leetcode-303/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 303 - 区域和检索 - 数组不可变</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/21/leetcode-524/">
-                        <span class="hidden-mobile">Leetcode 524 - 通过删除字母匹配到字典里最长单词</span>
+                      <a href="/2020/05/21/leetcode-392/">
+                        <span class="hidden-mobile">Leetcode 392 - 判断子序列</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -385,7 +444,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 392 - 判断子序列&nbsp;",
+        "Leetcode 303 - 区域和检索 - 数组不可变&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
