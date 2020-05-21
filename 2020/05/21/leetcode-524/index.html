@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 107 - 二叉树的层次遍历 II - Tomas&#39; blog</title>
+  <title>Leetcode 524 - 通过删除字母匹配到字典里最长单词 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,7 +132,7 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-21 16:07">
+                  <time datetime="2020-05-21 17:26">
                     2020年5月21日 下午
                   </time>
                 </div>
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    243 字
+                    618 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    3
+                    8
                      分钟
                   </span>
                 
@@ -183,35 +183,79 @@
             
             <article class="markdown-body">
               <p>题目：</p>
-<pre><code class="hljs quote">给定一个二叉树，返回其节点值自底向上的层次遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）</code></pre>
-
-<p>挺久没二叉树了，这道简单正好<br>二叉树先决定前中后序遍历，这个用前序好，从底向上的遍历就是从顶向下遍历反过来[::-1]<br>每层产生了第一个点就append进数组，底二个点就append进对应位置子数组。用个常量记录当前的层数<br>速度击败83%的用户，优化空间没必要看了，过了<br>目前来说做的最顺的一题，随便画画一想很快搞定了</p>
+<pre><code class="hljs quote">给定一个字符串和一个字符串字典，找到字典里面最长的字符串，该字符串可以通过删除给定字符串的某些字符来得到。如果答案不止一个，返回长度最长且字典顺序最小的字符串。如果答案不存在，则返回空字符串。</code></pre>
+<p>首先想法：d中str的元素在s中能按顺序找到，str就满足条件。用两个指针记录位置就能穷举了。<br>不过这题肯定没这么简单，s被刷len(d)遍，时间复杂度在n^2上<br>d中元素之间的关系应该也可以利用的？想不到</p>
+<p>另一个想法：用pointers = [0]*len(d)来保存d上str的指针集，然后开始遍历s，与s相同的str的指针也走，最后pointer走到str头且str最大的就是答案。按这个写了<br>这里边有纠结。从头开始走不知道哪里是具体str底不用走了，决定全部从后往前遍历，这样走到-1就算走完了；还要再判断一遍满足条件str里最长最左的，也是没办法</p>
 <pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">levelOrderBottom</span><span class="hljs-params">(self, root)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findLongestWord</span><span class="hljs-params">(self, s, d)</span>:</span>
         <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type root: TreeNode</span>
-<span class="hljs-string">        :rtype: List[List[int]]</span>
+<span class="hljs-string">        :type s: str</span>
+<span class="hljs-string">        :type d: List[str]</span>
+<span class="hljs-string">        :rtype: str</span>
 <span class="hljs-string">        """</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
-            <span class="hljs-keyword">return</span> []
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> d <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> s:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">""</span>
 
-        level = <span class="hljs-number">0</span>
-        list = []
+        reverse_pointers = [len(i)<span class="hljs-number">-1</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> d]
 
-        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">nextLevel</span><span class="hljs-params">(level, node)</span>:</span>
-            <span class="hljs-keyword">if</span> len(list) &lt; level+<span class="hljs-number">1</span>:
-                list.append([node.val])
-            <span class="hljs-keyword">else</span>:
-                list[level].append(node.val)
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(s)<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>):
+            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(len(d)):
+                <span class="hljs-comment"># d中第j个str,其reverse_pointers[j]为这个str当前位置指针</span>
+                <span class="hljs-keyword">if</span> reverse_pointers[j] &gt;= <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> d[j][reverse_pointers[j]] == s[i]:
+                    reverse_pointers[j] -= <span class="hljs-number">1</span>
 
-            <span class="hljs-keyword">if</span> node.left:
-                nextLevel(level+<span class="hljs-number">1</span>, node.left)
-            <span class="hljs-keyword">if</span> node.right:
-                nextLevel(level+<span class="hljs-number">1</span>, node.right)
-        
-        nextLevel(level, root)
 
-        <span class="hljs-keyword">return</span> list[::<span class="hljs-number">-1</span>]</code></pre>
+        max_len = <span class="hljs-number">0</span>
+        res = <span class="hljs-string">""</span>
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(d)):
+            <span class="hljs-keyword">if</span> reverse_pointers[i] == <span class="hljs-number">-1</span> <span class="hljs-keyword">and</span> len(d[i]) &gt; max_len:
+                max_len = max(max_len, len(d[i]))
+                res = d[i]
+
+        <span class="hljs-keyword">return</span> res</code></pre>
+
+<p>被审题框了，不是”长度最长数组顺序最小”，而是”长度最长字典序最小”。比如</p>
+<pre><code class="hljs quote">解答错误
+显示详情
+输入
+&quot;bab&quot;
+[&quot;ba&quot;,&quot;ab&quot;,&quot;a&quot;,&quot;b&quot;]
+输出
+&quot;ba&quot;
+预期结果
+&quot;ab&quot;</code></pre>
+<p>重新改改最后一截</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findLongestWord</span><span class="hljs-params">(self, s, d)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type s: str</span>
+<span class="hljs-string">        :type d: List[str]</span>
+<span class="hljs-string">        :rtype: str</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> d <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> s:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">""</span>
+
+        reverse_pointers = [len(i)<span class="hljs-number">-1</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> d]
+
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(s)<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>):
+            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(len(d)):
+                <span class="hljs-comment"># d中第j个str,其reverse_pointers[j]为这个str当前位置指针</span>
+                <span class="hljs-keyword">if</span> reverse_pointers[j] &gt;= <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> d[j][reverse_pointers[j]] == s[i]:
+                    reverse_pointers[j] -= <span class="hljs-number">1</span>
+
+        max_len = <span class="hljs-number">0</span>
+        res = <span class="hljs-string">""</span>
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(d)):
+            <span class="hljs-keyword">if</span> reverse_pointers[i] == <span class="hljs-number">-1</span>:
+                <span class="hljs-keyword">if</span> len(d[i]) &gt; max_len:
+                    max_len = len(d[i])
+                    res = d[i]
+                <span class="hljs-keyword">elif</span> len(d[i]) == max_len <span class="hljs-keyword">and</span> d[i] &gt; res:
+                    res = d[i]
+
+        <span class="hljs-keyword">return</span> res</code></pre>
+
+<p>答案还挺多的4种，思想差不多，细节跳过不表</p>
 
             </article>
             <hr>
@@ -235,9 +279,9 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/21/leetcode-524/">
+                      <a href="/2020/05/21/leetcode-392/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 524 - 通过删除字母匹配到字典里最长单词</span>
+                        <span class="hidden-mobile">Leetcode 392 - 判断子序列</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -245,8 +289,8 @@
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/21/leetcode-5/">
-                        <span class="hidden-mobile">Leetcode 5 - 最长回文子串</span>
+                      <a href="/2020/05/21/leetcode-107/">
+                        <span class="hidden-mobile">Leetcode 107 - 二叉树的层次遍历 II</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -386,7 +430,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 107 - 二叉树的层次遍历 II&nbsp;",
+        "Leetcode 524 - 通过删除字母匹配到字典里最长单词&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

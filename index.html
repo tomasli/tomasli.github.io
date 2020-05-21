@@ -157,6 +157,77 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/21/leetcode-392/">Leetcode 392 - 判断子序列</a>
+
+      <a href="/2020/05/21/leetcode-392/" class="index-excerpt">
+        
+        
+          
+        
+        <div>题目：
+给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~&#x3D; 500,000），而 s 是个短字符串（长度 &lt;&#x3D;100）。
+字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&quot;ace&quot;是&quot;abcde&</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-21
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Leetcode/">Leetcode</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/21/leetcode-524/">Leetcode 524 - 通过删除字母匹配到字典里最长单词</a>
+
+      <a href="/2020/05/21/leetcode-524/" class="index-excerpt">
+        
+        
+          
+        
+        <div>题目：
+给定一个字符串和一个字符串字典，找到字典里面最长的字符串，该字符串可以通过删除给定字符串的某些字符来得到。如果答案不止一个，返回长度最长且字典顺序最小的字符串。如果答案不存在，则返回空字符串。
+首先想法：d中str的元素在s中能按顺序找到，str就满足条件。用两个指针记录位置就能穷举了。不过这题肯定没这么简单，s被刷len(d)遍，时间复杂度在n^2上d中元素之间的关系应该也可以利用的？想</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-21
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Leetcode/">Leetcode</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2020/05/21/leetcode-107/">Leetcode 107 - 二叉树的层次遍历 II</a>
 
       <a href="/2020/05/21/leetcode-107/" class="index-excerpt">
@@ -440,80 +511,6 @@ class Solution(object):
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Leetcode/">Leetcode</a>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/15/leetcode-496/">Leetcode 496 - 下一个更大元素 I</a>
-
-      <a href="/2020/05/15/leetcode-496/" class="index-excerpt">
-        
-        
-          
-        
-        <div>题目：
-给定两个 没有重复元素 的数组 nums1 和 nums2 ，其中nums1 是 nums2 的子集。找到 nums1 中每个元素在 nums2 中的下一个比其大的值。
-nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位置的右边的第一个比 x 大的元素。如果不存在，对应位置输出 -1 。
-
-遍历一遍nums2，肯定走了一遍nums1的元素了。先处理一下nums1的元</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-15
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Leetcode/">Leetcode</a>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/15/leetcode-560/">Leetcode 560 - 和为K的子数组</a>
-
-      <a href="/2020/05/15/leetcode-560/" class="index-excerpt">
-        
-        
-          
-        
-        <div>题目：
-给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。
-
-先想到快慢指针问题。如果快慢指针区间数和等于k，res+1。慢指针不动快指针动，如果大于k，慢指针动(如果满指针赶上快指针，一块动)，直到再次小于等于k，快指针继续。终结条件是快指针走到头且区间数和&lt;k，结束。
-sums中可能有负数的，这个写法默认所有值为正整数，玩不转。这路子我只能想到O(n^2)</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-15
           </div>
         
         

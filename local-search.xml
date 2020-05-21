@@ -4,6 +4,44 @@
   
   
   <entry>
+    <title>Leetcode 392 - 判断子序列</title>
+    <link href="/2020/05/21/leetcode-392/"/>
+    <url>/2020/05/21/leetcode-392/</url>
+    
+    <content type="html"><![CDATA[<p>题目：</p><pre><code class="hljs quote">给定字符串 s 和 t ，判断 s 是否为 t 的子序列。你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~&#x3D; 500,000），而 s 是个短字符串（长度 &lt;&#x3D;100）。字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&quot;ace&quot;是&quot;abcde&quot;的一个子序列，而&quot;aec&quot;不是）。</code></pre><p>很简单的一个双指针吧，刚做过这个题的高难度版 </p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">isSubsequence</span><span class="hljs-params">(self, s, t)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type s: str</span><span class="hljs-string">        :type t: str</span><span class="hljs-string">        :rtype: bool</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> s:            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> t <span class="hljs-keyword">or</span> len(s) &gt; len(t):            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>        i, j = <span class="hljs-number">0</span>, <span class="hljs-number">0</span>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(t)):            <span class="hljs-keyword">if</span> t[i] == s[j]:                j += <span class="hljs-number">1</span>                <span class="hljs-comment">## z这个地方写成t了，st混了</span>                <span class="hljs-keyword">if</span> j &gt;= len(s):                    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span></code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Leetcode 524 - 通过删除字母匹配到字典里最长单词</title>
+    <link href="/2020/05/21/leetcode-524/"/>
+    <url>/2020/05/21/leetcode-524/</url>
+    
+    <content type="html"><![CDATA[<p>题目：</p><pre><code class="hljs quote">给定一个字符串和一个字符串字典，找到字典里面最长的字符串，该字符串可以通过删除给定字符串的某些字符来得到。如果答案不止一个，返回长度最长且字典顺序最小的字符串。如果答案不存在，则返回空字符串。</code></pre><p>首先想法：d中str的元素在s中能按顺序找到，str就满足条件。用两个指针记录位置就能穷举了。<br>不过这题肯定没这么简单，s被刷len(d)遍，时间复杂度在n^2上<br>d中元素之间的关系应该也可以利用的？想不到</p><p>另一个想法：用pointers = [0]*len(d)来保存d上str的指针集，然后开始遍历s，与s相同的str的指针也走，最后pointer走到str头且str最大的就是答案。按这个写了<br>这里边有纠结。从头开始走不知道哪里是具体str底不用走了，决定全部从后往前遍历，这样走到-1就算走完了；还要再判断一遍满足条件str里最长最左的，也是没办法</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findLongestWord</span><span class="hljs-params">(self, s, d)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type s: str</span><span class="hljs-string">        :type d: List[str]</span><span class="hljs-string">        :rtype: str</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> d <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> s:            <span class="hljs-keyword">return</span> <span class="hljs-string">""</span>        reverse_pointers = [len(i)<span class="hljs-number">-1</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> d]        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(s)<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>):            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(len(d)):                <span class="hljs-comment"># d中第j个str,其reverse_pointers[j]为这个str当前位置指针</span>                <span class="hljs-keyword">if</span> reverse_pointers[j] &gt;= <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> d[j][reverse_pointers[j]] == s[i]:                    reverse_pointers[j] -= <span class="hljs-number">1</span>        max_len = <span class="hljs-number">0</span>        res = <span class="hljs-string">""</span>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(d)):            <span class="hljs-keyword">if</span> reverse_pointers[i] == <span class="hljs-number">-1</span> <span class="hljs-keyword">and</span> len(d[i]) &gt; max_len:                max_len = max(max_len, len(d[i]))                res = d[i]        <span class="hljs-keyword">return</span> res</code></pre><p>被审题框了，不是”长度最长数组顺序最小”，而是”长度最长字典序最小”。比如</p><pre><code class="hljs quote">解答错误显示详情输入&quot;bab&quot;[&quot;ba&quot;,&quot;ab&quot;,&quot;a&quot;,&quot;b&quot;]输出&quot;ba&quot;预期结果&quot;ab&quot;</code></pre><p>重新改改最后一截</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findLongestWord</span><span class="hljs-params">(self, s, d)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type s: str</span><span class="hljs-string">        :type d: List[str]</span><span class="hljs-string">        :rtype: str</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> d <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> s:            <span class="hljs-keyword">return</span> <span class="hljs-string">""</span>        reverse_pointers = [len(i)<span class="hljs-number">-1</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> d]        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(s)<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>):            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(len(d)):                <span class="hljs-comment"># d中第j个str,其reverse_pointers[j]为这个str当前位置指针</span>                <span class="hljs-keyword">if</span> reverse_pointers[j] &gt;= <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> d[j][reverse_pointers[j]] == s[i]:                    reverse_pointers[j] -= <span class="hljs-number">1</span>        max_len = <span class="hljs-number">0</span>        res = <span class="hljs-string">""</span>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(d)):            <span class="hljs-keyword">if</span> reverse_pointers[i] == <span class="hljs-number">-1</span>:                <span class="hljs-keyword">if</span> len(d[i]) &gt; max_len:                    max_len = len(d[i])                    res = d[i]                <span class="hljs-keyword">elif</span> len(d[i]) == max_len <span class="hljs-keyword">and</span> d[i] &gt; res:                    res = d[i]        <span class="hljs-keyword">return</span> res</code></pre><p>答案还挺多的4种，思想差不多，细节跳过不表</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Leetcode 107 - 二叉树的层次遍历 II</title>
     <link href="/2020/05/21/leetcode-107/"/>
     <url>/2020/05/21/leetcode-107/</url>
