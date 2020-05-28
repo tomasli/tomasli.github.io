@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    599 字
+                    957 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    7
+                    12
                      分钟
                   </span>
                 
@@ -208,6 +208,7 @@
             <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(inorder), <span class="hljs-number">1</span>):
                 <span class="hljs-keyword">if</span> inorder[i] == preorder[<span class="hljs-number">0</span>]:
                     <span class="hljs-comment"># 拆分preorder和inorder。中括号里是取数组区段的开闭区间。控制一下i溢出的情况</span>
+                    <span class="hljs-comment">## 2020/05/22：这个数组切片不会溢出吧</span>
                     left_preorder, right_preorder = preorder[<span class="hljs-number">1</span>:i+<span class="hljs-number">1</span>], preorder[i+<span class="hljs-number">1</span>:] <span class="hljs-keyword">if</span> i &lt; len(preorder)<span class="hljs-number">-1</span> <span class="hljs-keyword">else</span> []
                     left_inorder, right_inorder = inorder[:i], inorder[i+<span class="hljs-number">1</span>:] <span class="hljs-keyword">if</span> i &lt; len(inorder)<span class="hljs-number">-1</span> <span class="hljs-keyword">else</span> []
                     <span class="hljs-keyword">break</span>
@@ -246,6 +247,37 @@
         <span class="hljs-keyword">return</span> root</code></pre>
 
 <p>官方还有O(n)时间复杂度的答案，留待以后看吧</p>
+<p>===========================================================================</p>
+<h2 id="2020-05-22："><a href="#2020-05-22：" class="headerlink" title="2020/05/22："></a>2020/05/22：</h2><p>这个每日一题之前写过了，当时没思路看了提示做出来。重新做试试。另外还有时间复杂度O(n)的方法跳过了，试试做下<br>前序遍历的第一个一定是根节点<br>前序树根，在中序里的左边部分是左子树，右边部分全部是右子树。前序遍历也在这个分割点切开，左边是左子树的前序遍历，右边是右子树的前序遍历<br>迭代可行</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">buildTree</span><span class="hljs-params">(self, preorder, inorder)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type preorder: List[int]</span>
+<span class="hljs-string">        :type inorder: List[int]</span>
+<span class="hljs-string">        :rtype: TreeNode</span>
+<span class="hljs-string">        """</span>
+
+        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">buildSubTree</span><span class="hljs-params">(preorder, inorder)</span>:</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> preorder <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> inorder:
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+            node = TreeNode(preorder[<span class="hljs-number">0</span>])
+
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(inorder)):
+                <span class="hljs-keyword">if</span> preorder[<span class="hljs-number">0</span>] == inorder[i]:
+                    <span class="hljs-comment">## 数组切片到终点的不用明写出来</span>
+                    node.left = buildSubTree(preorder[<span class="hljs-number">1</span>:i+<span class="hljs-number">1</span>], inorder[<span class="hljs-number">0</span>:i])
+                    node.right = buildSubTree(preorder[i+<span class="hljs-number">1</span>:len(preorder)+<span class="hljs-number">1</span>], inorder[i+<span class="hljs-number">1</span>:len(inorder)+<span class="hljs-number">1</span>])
+                    <span class="hljs-comment">## 效率低，这里少了个break，没必要继续比对到头</span>
+                    <span class="hljs-keyword">break</span>
+
+            <span class="hljs-keyword">return</span> node
+
+        <span class="hljs-keyword">return</span> buildSubTree(preorder, inorder)</code></pre>
+
+<p>一遍搞定不过比原来效率还低好多噢</p>
+<p>正确答案两种，递归和迭代（借助stack）<br>用{值：坐标}来建立中序遍历的字典，空间复杂度增加了，但是可以在常数时间找到前序遍历当前根在中序遍历中的位置了<br>index = {element: i for i, element in enumerate(inorder)}</p>
+<p>要是还有机会回来搞，写个迭代的</p>
 
             </article>
             <hr>
