@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>归档 - Tomas&#39; blog</title>
+  <title>Leetcode 94 - 二叉树的中序遍历 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -46,7 +46,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -129,6 +129,38 @@
             </span>
 
             
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2020-05-28 18:06">
+                    2020年5月28日 晚上
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    159 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    2
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
           </div>
 
           
@@ -139,103 +171,104 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 33 篇文章</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/05/15/leetcode-560/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 560 - 和为K的子数组</span>
-      <span style="float: right;">05-15</span>
-    </a>
-  
-    
-    <a href="/2020/05/14/leetcode-136/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 136 - 只出现一次的数字</span>
-      <span style="float: right;">05-14</span>
-    </a>
-  
-    
-    <a href="/2020/05/13/leetcode-105/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 105 - 从前序与中序遍历序列构造二叉树</span>
-      <span style="float: right;">05-13</span>
-    </a>
-  
-    
-    <a href="/2020/05/13/leetcode-124/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 124 - 二叉树中的最大路径和</span>
-      <span style="float: right;">05-13</span>
-    </a>
-  
-    
-    <a href="/2020/05/13/leetcode-102/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 102 - 二叉树的层序遍历</span>
-      <span style="float: right;">05-13</span>
-    </a>
-  
-    
-    <a href="/2020/05/12/leetcode-55/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 55 - I. 二叉树的深度</span>
-      <span style="float: right;">05-12</span>
-    </a>
-  
-    
-    <a href="/2020/05/12/leetcode-226/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 226 -</span>
-      <span style="float: right;">05-12</span>
-    </a>
-  
-    
-    <a href="/2020/05/12/leetcode-155/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 155 - 最小栈</span>
-      <span style="float: right;">05-12</span>
-    </a>
-  
-    
-    <a href="/2020/05/11/leetcode-50/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 50 - Pow(x, n)</span>
-      <span style="float: right;">05-11</span>
-    </a>
-  
-    
-    <a href="/2020/05/09/leetcode-1287/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 1287 - 有序数组中出现次数超过25%的元素</span>
-      <span style="float: right;">05-09</span>
-    </a>
-  
-</div>
 
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/archives/page/2/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/4/"><i class="iconfont icon-arrowright"></i></a>
-    </span>
-  </nav>
-  
-  <script>
-    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
-      ele.href += '#board';
-    }
-  </script>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>题目：<br>来自探索-&gt;栈和深度优先搜索</p>
+<pre><code class="hljs quote">给定一个二叉树，返回它的中序 遍历。</code></pre>
 
+<p>要求迭代就迭代，一下就做完了。估计难点就是中序迭代时候，父节点如何安放的</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">inorderTraversal</span><span class="hljs-params">(self, root)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type root: TreeNode</span>
+<span class="hljs-string">        :rtype: List[int]</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+            <span class="hljs-keyword">return</span> []
+        res = []
+        stack = [root]
+        <span class="hljs-keyword">while</span> stack:
+            node = stack.pop()
+            <span class="hljs-keyword">if</span> type(node) != TreeNode:
+                res.append(node)
+                <span class="hljs-keyword">continue</span>
 
+            <span class="hljs-keyword">if</span> node.right:
+                stack.append(node.right)
+            stack.append(node.val)
+            <span class="hljs-keyword">if</span> node.left:
+                stack.append(node.left)
 
+        <span class="hljs-keyword">return</span> res</code></pre>
+
+<p>尝试更兼容的写法一下没写出来。即向左一直跑到头，到头之后拿出来一个向右走一步，进行下一步循环</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Leetcode/">Leetcode</a>
+                    
+                  </div>
+                
+                
               </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/28/leetcode-394/">
+                        <span class="hidden-mobile">Leetcode 394 - 字符串解码</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
             </div>
+
+            
           </div>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
   </main>
 
@@ -299,6 +332,34 @@
 
 
 
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
 
 
   <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
@@ -318,7 +379,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "Leetcode 94 - 二叉树的中序遍历&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
@@ -361,6 +422,20 @@
   </script>
 
 
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
 
 
 
