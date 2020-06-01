@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Leetcode 56 - 合并区间</title>
+    <link href="/2020/06/01/leetcode-56/"/>
+    <url>/2020/06/01/leetcode-56/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自探索-数组简介</p><pre><code class="hljs quote">给出一个区间的集合，请合并所有重叠的区间。</code></pre><p>重叠区间, 数组元素的后一个 &gt;= 另一个数组元素的前一个，则两个要合并。<br>暴力法，两个循环，取第一个元素，其它元素尝试是否能和这个元素合并；然后取第二个元素，重复以上流程</p><p>感觉肯定可以减小时间复杂度。先按每个数组元素里第一位来排序，然后两两对比：</p><ol><li>后一个元素的第一个&lt;=前一个元素的第二个，两个要合并，继续和下一个元素比较</li><li>否则，第一个元素肯定是没法合并的，单独存结果里</li></ol><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">merge</span><span class="hljs-params">(self, intervals)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type intervals: List[List[int]]</span><span class="hljs-string">        :rtype: List[List[int]]</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> intervals:            <span class="hljs-keyword">return</span> []        pre = <span class="hljs-literal">None</span>        res = []        <span class="hljs-comment"># 果然不是默认排序的，自己排</span>        intervals.sort()        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> intervals:            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> pre:                pre = i            <span class="hljs-comment"># 这个地方不能&lt;=, 否则没法合并前后正好是界值的情况</span>            <span class="hljs-keyword">if</span> pre[<span class="hljs-number">1</span>] &lt; i[<span class="hljs-number">0</span>]:                res.append(pre)                pre = i            <span class="hljs-keyword">else</span>:                pre = [pre[<span class="hljs-number">0</span>], max(i[<span class="hljs-number">1</span>], pre[<span class="hljs-number">1</span>])]        <span class="hljs-keyword">if</span> pre:            res.append(pre)        <span class="hljs-keyword">return</span> res</code></pre><p>写的还挺快的，想回家的加成吧</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Leetcode 35 - 搜索插入位置</title>
     <link href="/2020/06/01/leetcode-35/"/>
     <url>/2020/06/01/leetcode-35/</url>
