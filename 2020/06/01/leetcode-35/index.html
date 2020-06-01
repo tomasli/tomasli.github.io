@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 1431 - 拥有最多糖果的孩子 - Tomas&#39; blog</title>
+  <title>Leetcode 35 - 搜索插入位置 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,8 +132,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-06-01 10:55">
-                    2020年6月1日 上午
+                  <time datetime="2020-06-01 18:24">
+                    2020年6月1日 晚上
                   </time>
                 </div>
               
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    140 字
+                    205 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    1
+                    2
                      分钟
                   </span>
                 
@@ -182,26 +182,45 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <p>题目：<br>来自每日一题</p>
-<pre><code class="hljs quote">
-开始限制时间了，15分钟一题，能做就做出来，不行就看答案
+              <p>题目：<br>来自探索-数组简介</p>
+<pre><code class="hljs quote">给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+你可以假设数组中无重复元素。</code></pre>
 
-数组值+额外值是否是最大值的问题。 这道题没必要回来重看了
+<p>很直接，折半查找。边界值条件要熟练</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">searchInsert</span><span class="hljs-params">(self, nums, target)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type nums: List[int]</span>
+<span class="hljs-string">        :type target: int</span>
+<span class="hljs-string">        :rtype: int</span>
+<span class="hljs-string">        """</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+        
+        <span class="hljs-comment"># 题解要求同大小时放前边</span>
+        <span class="hljs-comment"># if nums[0] &gt; target:</span>
+        <span class="hljs-keyword">if</span> nums[<span class="hljs-number">0</span>] &gt;= target:
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
 
-&#96;&#96;&#96;python
-class Solution(object):
-    def kidsWithCandies(self, candies, extraCandies):
-        &quot;&quot;&quot;
-        :type candies: List[int]
-        :type extraCandies: int
-        :rtype: List[bool]
-        &quot;&quot;&quot;
-        max_one &#x3D; max(candies)
-        # 这个地方不需要not not
-        # return [not not i+extraCandies &gt;&#x3D; max_one for i in candies]
-        return [i+extraCandies &gt;&#x3D; max_one for i in candies]</code></pre>
+        <span class="hljs-keyword">if</span> nums[<span class="hljs-number">-1</span>] &lt; target:
+            <span class="hljs-keyword">return</span> len(nums)
 
-<p>5分钟就搞了，基本用来审题了，这个也太容易</p>
+        left = <span class="hljs-number">0</span>
+        right = len(nums)<span class="hljs-number">-1</span>
+
+        <span class="hljs-keyword">while</span> left+<span class="hljs-number">1</span> &lt; right:
+            <span class="hljs-keyword">print</span>  str(left) + <span class="hljs-string">"          "</span> + str(right)
+            middle = (right-left)/<span class="hljs-number">2</span> + left
+            <span class="hljs-keyword">if</span> nums[middle] == target:
+                <span class="hljs-keyword">return</span> middle
+            <span class="hljs-keyword">elif</span> nums[middle] &gt; target:
+                right = middle
+            <span class="hljs-keyword">else</span>:
+                left = middle
+
+        <span class="hljs-comment"># 跳出循环必然是left+1==right</span>
+        <span class="hljs-comment"># 也覆盖了len(nums) == 1 的情况</span>
+        <span class="hljs-keyword">return</span> right</code></pre>
 
             </article>
             <hr>
@@ -225,18 +244,12 @@ class Solution(object):
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/06/01/leetcode-724/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 724 - 寻找数组的中心索引</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/29/leetcode-733/">
-                        <span class="hidden-mobile">Leetcode 733 - 图像渲染</span>
+                      <a href="/2020/06/01/leetcode-724/">
+                        <span class="hidden-mobile">Leetcode 724 - 寻找数组的中心索引</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -376,7 +389,7 @@ class Solution(object):
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 1431 - 拥有最多糖果的孩子&nbsp;",
+        "Leetcode 35 - 搜索插入位置&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

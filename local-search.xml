@@ -4,6 +4,44 @@
   
   
   <entry>
+    <title>Leetcode 35 - 搜索插入位置</title>
+    <link href="/2020/06/01/leetcode-35/"/>
+    <url>/2020/06/01/leetcode-35/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自探索-数组简介</p><pre><code class="hljs quote">给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。你可以假设数组中无重复元素。</code></pre><p>很直接，折半查找。边界值条件要熟练</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">searchInsert</span><span class="hljs-params">(self, nums, target)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type nums: List[int]</span><span class="hljs-string">        :type target: int</span><span class="hljs-string">        :rtype: int</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>                <span class="hljs-comment"># 题解要求同大小时放前边</span>        <span class="hljs-comment"># if nums[0] &gt; target:</span>        <span class="hljs-keyword">if</span> nums[<span class="hljs-number">0</span>] &gt;= target:            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>        <span class="hljs-keyword">if</span> nums[<span class="hljs-number">-1</span>] &lt; target:            <span class="hljs-keyword">return</span> len(nums)        left = <span class="hljs-number">0</span>        right = len(nums)<span class="hljs-number">-1</span>        <span class="hljs-keyword">while</span> left+<span class="hljs-number">1</span> &lt; right:            <span class="hljs-keyword">print</span>  str(left) + <span class="hljs-string">"          "</span> + str(right)            middle = (right-left)/<span class="hljs-number">2</span> + left            <span class="hljs-keyword">if</span> nums[middle] == target:                <span class="hljs-keyword">return</span> middle            <span class="hljs-keyword">elif</span> nums[middle] &gt; target:                right = middle            <span class="hljs-keyword">else</span>:                left = middle        <span class="hljs-comment"># 跳出循环必然是left+1==right</span>        <span class="hljs-comment"># 也覆盖了len(nums) == 1 的情况</span>        <span class="hljs-keyword">return</span> right</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Leetcode 724 - 寻找数组的中心索引</title>
+    <link href="/2020/06/01/leetcode-724/"/>
+    <url>/2020/06/01/leetcode-724/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自探索-数组简介</p><pre><code class="hljs quote">给定一个整数类型的数组 nums，请编写一个能够返回数组“中心索引”的方法。我们是这样定义数组中心索引的：数组中心索引的左侧所有元素相加的和等于右侧所有元素相加的和。如果数组不存在中心索引，那么我们应该返回 -1。如果数组有多个中心索引，那么我们应该返回最靠近左边的那一个。</code></pre><p>直接点，用sum，一个for循环，时间复杂度”O(n**2)”</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">pivotIndex</span><span class="hljs-params">(self, nums)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type nums: List[int]</span><span class="hljs-string">        :rtype: int</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(len(nums)):            <span class="hljs-comment"># nums[:i-1]这个i-1小于0会倒到末尾去截取；nums[i+1:] i+1再大也是返回[]的</span>            <span class="hljs-keyword">if</span> nums[:max(i<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>)] <span class="hljs-keyword">and</span> nums[i+<span class="hljs-number">1</span>:] <span class="hljs-keyword">and</span> sum(nums[::max(i<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>)]) == sum(nums[i+<span class="hljs-number">1</span>:]):                <span class="hljs-keyword">return</span> nums[i]        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span></code></pre><p>上边的跑不过，也不想调试了<br>改改写法，算整个sum，然后一步一步加左边减右边，相等就返回，时间复杂度”O(n)”</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">pivotIndex</span><span class="hljs-params">(self, nums)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type nums: List[int]</span><span class="hljs-string">        :rtype: int</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>        <span class="hljs-comment"># 初始时将第一个数去掉，因为比较的是除去当前数的两边的数</span>        right_sum = sum(nums[<span class="hljs-number">1</span>:])        left_sum = <span class="hljs-number">0</span>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(len(nums)):            <span class="hljs-keyword">print</span> str(left_sum) + <span class="hljs-string">"            "</span> + str(right_sum)            <span class="hljs-keyword">if</span> left_sum == right_sum:                <span class="hljs-keyword">return</span> i            left_sum += nums[i]            <span class="hljs-comment"># 左右的步长不一致，右边必须先减一次。还要小心边界值情况</span>            <span class="hljs-comment"># right_sum -= nums[i]</span>            right_sum = right_sum - nums[i+<span class="hljs-number">1</span>] <span class="hljs-keyword">if</span> i+<span class="hljs-number">1</span>&lt;len(nums) <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span></code></pre><p>看起来容易，但是仍然在边界值上踟蹰了一会儿</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Leetcode 1431 - 拥有最多糖果的孩子</title>
     <link href="/2020/06/01/leetcode-1431/"/>
     <url>/2020/06/01/leetcode-1431/</url>
