@@ -4,6 +4,63 @@
   
   
   <entry>
+    <title>Leetcode 1431 - 拥有最多糖果的孩子</title>
+    <link href="/2020/06/01/leetcode-1431/"/>
+    <url>/2020/06/01/leetcode-1431/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自每日一题</p><pre><code class="hljs quote">开始限制时间了，15分钟一题，能做就做出来，不行就看答案数组值+额外值是否是最大值的问题。 这道题没必要回来重看了&#96;&#96;&#96;pythonclass Solution(object):    def kidsWithCandies(self, candies, extraCandies):        &quot;&quot;&quot;        :type candies: List[int]        :type extraCandies: int        :rtype: List[bool]        &quot;&quot;&quot;        max_one &#x3D; max(candies)        # 这个地方不需要not not        # return [not not i+extraCandies &gt;&#x3D; max_one for i in candies]        return [i+extraCandies &gt;&#x3D; max_one for i in candies]</code></pre><p>5分钟就搞了，基本用来审题了，这个也太容易</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Leetcode 733 - 图像渲染</title>
+    <link href="/2020/05/29/leetcode-733/"/>
+    <url>/2020/05/29/leetcode-733/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自探索-&gt;栈和深度优先搜索</p><pre><code class="hljs quote">有一幅以二维整数数组表示的图画，每一个整数表示该图画的像素值大小，数值在 0 到 65535 之间。给你一个坐标 (sr, sc) 表示图像渲染开始的像素值（行 ，列）和一个新的颜色值 newColor，让你重新上色这幅图像。为了完成上色工作，从初始坐标开始，记录初始坐标的上下左右四个方向上像素值与初始坐标相同的相连像素点，接着再记录这四个方向上符合条件的像素点与他们对应四个方向上像素值与初始坐标相同的相连像素点，……，重复该过程。将所有有记录的像素点的颜色值改为新的颜色值。最后返回经过上色渲染后的图像。</code></pre><p>这题就是从起始坐标开始DFS找最大岛的过程，用队列<br>比较简单的，做这种题已经很顺了</p><pre><code class="hljs python"><span class="hljs-keyword">import</span> Queue<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">floodFill</span><span class="hljs-params">(self, image, sr, sc, newColor)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type image: List[List[int]]</span><span class="hljs-string">        :type sr: int</span><span class="hljs-string">        :type sc: int</span><span class="hljs-string">        :type newColor: int</span><span class="hljs-string">        :rtype: List[List[int]]</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span>  <span class="hljs-keyword">not</span> image:            <span class="hljs-keyword">return</span> image        que = Queue.Queue()        reached_set = set()        <span class="hljs-comment"># 自作聪明了，行数和列数就该是这样的</span>        <span class="hljs-comment"># i_sr, i_sc = len(image[0]), len(image)</span>        i_sr, i_sc = len(image), len(image[<span class="hljs-number">0</span>])        que.put((sr, sc))        originColor = image[sr][sc]        <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> que.empty():            cur = que.get()            reached_set.add(cur)            (sr, sc) = cur            image[sr][sc] = newColor            <span class="hljs-comment"># b不是elif啊，都要的</span>            <span class="hljs-keyword">if</span> sr+<span class="hljs-number">1</span> &lt; i_sr <span class="hljs-keyword">and</span> (sr+<span class="hljs-number">1</span>, sc) <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> reached_set <span class="hljs-keyword">and</span> image[sr+<span class="hljs-number">1</span>][sc] == originColor:                que.put((sr+<span class="hljs-number">1</span>, sc))            <span class="hljs-keyword">if</span> sc+<span class="hljs-number">1</span> &lt; i_sc <span class="hljs-keyword">and</span> (sr, sc+<span class="hljs-number">1</span>) <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> reached_set <span class="hljs-keyword">and</span> image[sr][sc+<span class="hljs-number">1</span>] == originColor:                que.put((sr, sc+<span class="hljs-number">1</span>))            <span class="hljs-keyword">if</span> sr<span class="hljs-number">-1</span> &gt;= <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> (sr<span class="hljs-number">-1</span>, sc) <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> reached_set <span class="hljs-keyword">and</span> image[sr<span class="hljs-number">-1</span>][sc] == originColor:                que.put((sr<span class="hljs-number">-1</span>, sc))            <span class="hljs-keyword">if</span> sc<span class="hljs-number">-1</span> &gt;= <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> (sr, sc<span class="hljs-number">-1</span>) <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> reached_set <span class="hljs-keyword">and</span> image[sr][sc<span class="hljs-number">-1</span>] == originColor:                que.put((sr, sc<span class="hljs-number">-1</span>))        <span class="hljs-keyword">return</span> image</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Leetcode 225 - 用队列实现栈</title>
+    <link href="/2020/05/29/leetcode-225/"/>
+    <url>/2020/05/29/leetcode-225/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自探索-&gt;栈和深度优先搜索</p><pre><code class="hljs quote">使用队列实现栈的下列操作：push(x) -- 元素 x 入栈pop() -- 移除栈顶元素top() -- 获取栈顶元素empty() -- 返回栈是否为空注意:你只能使用队列的基本操作-- 也就是 push to back, peek&#x2F;pop from front, size, 和 is empty 这些操作是合法的。你所使用的语言也许不支持队列。 你可以使用 list 或者 deque（双端队列）来模拟一个队列 , 只要是标准的队列操作即可。你可以假设所有操作都是有效的（例如, 对一个空的栈不会调用 pop 或者 top 操作）。</code></pre><p>用栈实现队列的逆操作，试试看<br>push也是放在尾巴上<br>pop时候没法从尾巴上拿，只能从头上拿。再搞个队列入队用，除了最后一个不入队就好<br>top要返回当前最后一个值。用个变量记录最后往里放的一个<br>empty和队列一致</p><pre><code class="hljs python"><span class="hljs-keyword">import</span> Queue<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        Initialize your data structure here.</span><span class="hljs-string">        """</span>        self.que1 = Queue.Queue()        self.que2 = Queue.Queue()        self.top_holder = <span class="hljs-literal">None</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">push</span><span class="hljs-params">(self, x)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        Push element x onto stack.</span><span class="hljs-string">        :type x: int</span><span class="hljs-string">        :rtype: None</span><span class="hljs-string">        """</span>        self.que1.put(x) <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> self.que1.empty() <span class="hljs-keyword">else</span> self.que2.put(x)        self.top_holder = x    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">pop</span><span class="hljs-params">(self)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        Removes the element on top of the stack and returns that element.</span><span class="hljs-string">        :rtype: int</span><span class="hljs-string">        """</span>        last_one = <span class="hljs-literal">None</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> self.que1.empty():            <span class="hljs-keyword">while</span> self.que1.qsize():                <span class="hljs-comment"># 迟一轮put</span>                <span class="hljs-keyword">if</span> last_one:                    self.top_holder = last_one                    self.que2.put(self.top_holder)                last_one = self.que1.get()        <span class="hljs-keyword">elif</span> <span class="hljs-keyword">not</span> self.que2.empty():            <span class="hljs-keyword">while</span> self.que2.qsize():                <span class="hljs-keyword">if</span> last_one:                    self.top_holder = last_one                    self.que1.put(self.top_holder)                last_one = self.que2.get()        <span class="hljs-keyword">return</span> last_one             <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">top</span><span class="hljs-params">(self)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        Get the top element.</span><span class="hljs-string">        :rtype: int</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> self.empty():            <span class="hljs-keyword">return</span> self.top_holder    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">empty</span><span class="hljs-params">(self)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        Returns whether the stack is empty.</span><span class="hljs-string">        :rtype: bool</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">return</span> self.que1.empty() <span class="hljs-keyword">and</span> self.que2.empty()<span class="hljs-comment"># Your MyStack object will be instantiated and called as such:</span><span class="hljs-comment"># obj = MyStack()</span><span class="hljs-comment"># obj.push(x)</span><span class="hljs-comment"># param_2 = obj.pop()</span><span class="hljs-comment"># param_3 = obj.top()</span><span class="hljs-comment"># param_4 = obj.empty()</span></code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Leetcode 232 - 用栈实现队列</title>
     <link href="/2020/05/28/leetcode-232/"/>
     <url>/2020/05/28/leetcode-232/</url>
