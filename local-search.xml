@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Leetcode mian-64 - 求1+2+…+n</title>
+    <link href="/2020/06/02/leetcode-mian-64/"/>
+    <url>/2020/06/02/leetcode-mian-64/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自每日一题</p><pre><code class="hljs quote">&quot;求 1+2+...+n ，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。&quot;</code></pre><p>不能使用判断语句的叠加，就是取中间值的倍数呗。但要判断一下是奇数还是偶数个数字<br>我去，没看到不能使用乘除法，条件判断语句。这样怎么玩。递归吧。递归结束条件也得要if啊。。建个list来判断结束好了<br>只能加加加呗</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sumNums</span><span class="hljs-params">(self, n)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type n: int</span><span class="hljs-string">        :rtype: int</span><span class="hljs-string">        """</span>        list_nums = list(n)        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">subproblem</span><span class="hljs-params">(n)</span>:</span>        <span class="hljs-keyword">return</span> n + sum</code></pre><p>写不出来，感觉完全是个智力题，和编程关系不大<br>三元运算符是题目允许的，但是python常用的还是”if else”<br>其实也有别的写法但是不适合用在项目里，这样：</p><pre><code class="hljs quote">print(&#123;True: &quot;More&quot;, False: &quot;Less&quot;&#125;[a &gt; b]) # 运行结果为：Lessprint((&quot;FalseValue&quot;, &quot;TrueValue&quot;)[a &gt; b]) # 运行结果为：FalseValue</code></pre><p>递归写一个。这个跑不出来递归，判断条件会沿着true false两条线向下跑，就会是循环超出限制的错误。<br>理解了一下，主要是因为dict和tuple是建完之后再做判断的，建立过程中就跑到下层逻辑里去了</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sumNums</span><span class="hljs-params">(self, n)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type n: int</span><span class="hljs-string">        :rtype: int</span><span class="hljs-string">        """</span>        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">subproblem</span><span class="hljs-params">(n)</span>:</span>            <span class="hljs-keyword">return</span> &#123;<span class="hljs-literal">True</span>: subproblem(n<span class="hljs-number">-1</span>)+n, <span class="hljs-literal">False</span>: n&#125;[n&gt;<span class="hljs-number">0</span>]        <span class="hljs-keyword">return</span> subproblem(n)</code></pre><p>其实还有快速乘方法，使用位运算，可降低时间复杂度，看了一知半解先放过<br>还有用我上边差不多脑洞的，比我多想一步，用try来判断list是否溢出，溢出就结束循环<br>还是有”sum(range(n+1))”这种取巧型。限制太多就是这么回事，漏洞也多</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Leetcode 56 - 合并区间</title>
     <link href="/2020/06/01/leetcode-56/"/>
     <url>/2020/06/01/leetcode-56/</url>

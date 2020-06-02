@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>归档 - Tomas&#39; blog</title>
+  <title>Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -46,7 +46,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -132,6 +132,10 @@
           </div>
 
           
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
         </div>
       </div>
     </div>
@@ -141,51 +145,54 @@
     
       <div class="container nopadding-md">
         <div class="py-5" id="board"
-          >
+          style=margin-top:0>
           
           <div class="container">
             <div class="row">
               <div class="col-12 col-md-10 m-auto">
                 
 
-<div class="list-group">
-  <p class="h4">共计 41 篇文章</p>
-  <hr>
-  
+
+  <div class="row mx-auto index-card">
     
-      
-      <p class="h5">2020</p>
     
-    <a href="/2020/06/02/leetcode-mian-64/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode mian-64 - 求1+2+…+n</span>
-      <span style="float: right;">06-02</span>
-    </a>
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/09/hello-world/">Hello World</a>
+
+      <a href="/2020/05/09/hello-world/" class="index-excerpt">
+        
+        
+          
+        
+        <div>Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-09
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/4/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    </span>
+  </nav>
   
-    
-    <a href="/2020/06/01/leetcode-56/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 56 - 合并区间</span>
-      <span style="float: right;">06-01</span>
-    </a>
-  
-    
-    <a href="/2020/06/01/leetcode-35/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 35 - 搜索插入位置</span>
-      <span style="float: right;">06-01</span>
-    </a>
-  
-    
-    <a href="/2020/06/01/leetcode-724/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 724 - 寻找数组的中心索引</span>
-      <span style="float: right;">06-01</span>
-    </a>
-  
-    
-    <a href="/2020/06/01/leetcode-1431/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 1431 - 拥有最多糖果的孩子</span>
-      <span style="float: right;">06-01</span>
-    </a>
-  
-</div>
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
 
 
 
@@ -276,7 +283,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "An elegant Material-Design theme for Hexo&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
