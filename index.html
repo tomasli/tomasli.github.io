@@ -157,6 +157,211 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/03/leetcode-283/">Leetcode 283 - 移动零</a>
+
+      <a href="/2020/06/03/leetcode-283/" class="index-excerpt">
+        
+        
+          
+        
+        <div>题目：来自热题100
+给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+必须在原数组上操作，不能拷贝额外的数组。
+尽量减少操作次数。
+
+原数组操作，不能再搞一个数组里元素交换就好，只要要移动非0的，这些步骤省不了，只是每个要移动的非0直接移到它应在的位置就是了
+class Solution(object):
+    def moveZeroes(sel</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Leetcode/">Leetcode</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/03/leetcode-538/">Leetcode 538 - 把二叉搜索树转换为累加树</a>
+
+      <a href="/2020/06/03/leetcode-538/" class="index-excerpt">
+        
+        
+          
+        
+        <div>题目：来自热题100
+给定一个二叉搜索树（Binary Search Tree），把它转换成为累加树（Greater Tree
+使得每个节点的值是原来的节点值加上所有大于它的节点值之和。
+
+二叉搜索树，是所有左子节点小于父节点小于所有右子节点那么要累加，就是从最右下角的节点开始遍历加总一个值到所有其它元素呗，中序深度遍历反过来。 递归或迭代。 写个递归吧
+class Solution(object</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Leetcode/">Leetcode</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/03/leetcode-21/">Leetcode 21 - 合并两个有序链表</a>
+
+      <a href="/2020/06/03/leetcode-21/" class="index-excerpt">
+        
+        
+          
+        
+        <div>题目：来自热题100
+将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+
+维护两个指针就好了吧
+class Solution(object):
+    def mergeTwoLists(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+ </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Leetcode/">Leetcode</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/03/leetcode-169/">Leetcode 169 - 多数元素</a>
+
+      <a href="/2020/06/03/leetcode-169/" class="index-excerpt">
+        
+        
+          
+        
+        <div>题目：来自热题100
+给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数大于 ⌊ n&#x2F;2 ⌋ 的元素。
+你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+
+数组中多于一半的元素。 排序后中间那个数就是呗
+class Solution(object):
+    def majorityElement(self, nums):
+        """
+   </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Leetcode/">Leetcode</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/03/leetcode-206/">Leetcode 206 - 反转链表</a>
+
+      <a href="/2020/06/03/leetcode-206/" class="index-excerpt">
+        
+        
+          
+        
+        <div>题目：来自热题100
+反转一个单链表。
+进阶:
+你可以迭代或递归地反转链表。你能否用两种方法解决这道题？
+
+简单，两个都写写呗
+以为好写，好不容易挤出一个栈的写法
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#  </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Leetcode/">Leetcode</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2020/06/03/leetcode-461/">Leetcode 461 - 汉明距离</a>
 
       <a href="/2020/06/03/leetcode-461/" class="index-excerpt">
@@ -200,14 +405,22 @@ class Solution(object):
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/06/03/leetcode-617/">leetcode 617</a>
+      <a class="index-header" href="/2020/06/03/leetcode-617/">Leetcode 617 - 合并二叉树</a>
 
       <a href="/2020/06/03/leetcode-617/" class="index-excerpt">
         
         
           
         
-        <div></div>
+        <div>题目：来自热题100
+给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。
+你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。
+
+共同进行深度遍历就完了。什么遍历都一样
+import Queue
+
+class Solution(object):
+    def</div>
       </a>
 
       <div class="index-btm post-metas">
@@ -216,6 +429,13 @@ class Solution(object):
             <i class="iconfont icon-date"></i>&nbsp;2020-06-03
           </div>
         
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Leetcode/">Leetcode</a>
+            
+          </div>
         
         
       </div>
@@ -323,204 +543,6 @@ c</div>
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>&nbsp;2020-06-02
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Leetcode/">Leetcode</a>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/06/01/leetcode-56/">Leetcode 56 - 合并区间</a>
-
-      <a href="/2020/06/01/leetcode-56/" class="index-excerpt">
-        
-        
-          
-        
-        <div>题目：来自探索-数组简介
-给出一个区间的集合，请合并所有重叠的区间。
-
-重叠区间, 数组元素的后一个 &gt;= 另一个数组元素的前一个，则两个要合并。暴力法，两个循环，取第一个元素，其它元素尝试是否能和这个元素合并；然后取第二个元素，重复以上流程
-感觉肯定可以减小时间复杂度。先按每个数组元素里第一位来排序，然后两两对比：
-
-后一个元素的第一个&lt;=前一个元素的第二个，两个要合并，继续和下一个</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-06-01
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Leetcode/">Leetcode</a>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/06/01/leetcode-35/">Leetcode 35 - 搜索插入位置</a>
-
-      <a href="/2020/06/01/leetcode-35/" class="index-excerpt">
-        
-        
-          
-        
-        <div>题目：来自探索-数组简介
-给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
-你可以假设数组中无重复元素。
-
-很直接，折半查找。边界值条件要熟练
-class Solution(object):
-    def searchInsert(self, nums, target):
-        """
-        :type </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-06-01
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Leetcode/">Leetcode</a>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/06/01/leetcode-724/">Leetcode 724 - 寻找数组的中心索引</a>
-
-      <a href="/2020/06/01/leetcode-724/" class="index-excerpt">
-        
-        
-          
-        
-        <div>题目：来自探索-数组简介
-给定一个整数类型的数组 nums，请编写一个能够返回数组“中心索引”的方法。
-我们是这样定义数组中心索引的：数组中心索引的左侧所有元素相加的和等于右侧所有元素相加的和。
-如果数组不存在中心索引，那么我们应该返回 -1。如果数组有多个中心索引，那么我们应该返回最靠近左边的那一个。
-
-直接点，用sum，一个for循环，时间复杂度”O(n**2)”
-class Solution</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-06-01
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Leetcode/">Leetcode</a>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/06/01/leetcode-1431/">Leetcode 1431 - 拥有最多糖果的孩子</a>
-
-      <a href="/2020/06/01/leetcode-1431/" class="index-excerpt">
-        
-        
-          
-        
-        <div>题目：来自每日一题
-
-开始限制时间了，15分钟一题，能做就做出来，不行就看答案
-
-数组值+额外值是否是最大值的问题。 这道题没必要回来重看了
-
-&#96;&#96;&#96;python
-class Solution(object):
-    def kidsWithCandies(self, candies, extraCandies):
-        &quot;&quot;&quot;
- </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-06-01
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Leetcode/">Leetcode</a>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/29/leetcode-733/">Leetcode 733 - 图像渲染</a>
-
-      <a href="/2020/05/29/leetcode-733/" class="index-excerpt">
-        
-        
-          
-        
-        <div>题目：来自探索-&gt;栈和深度优先搜索
-有一幅以二维整数数组表示的图画，每一个整数表示该图画的像素值大小，数值在 0 到 65535 之间。
-给你一个坐标 (sr, sc) 表示图像渲染开始的像素值（行 ，列）和一个新的颜色值 newColor，让你重新上色这幅图像。
-为了完成上色工作，从初始坐标开始，记录初始坐标的上下左右四个方向上像素值与初始坐标相同的相连像素点，接着再记录这四个方向上符合条</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-29
           </div>
         
         

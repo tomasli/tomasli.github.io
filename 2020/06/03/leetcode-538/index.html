@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 617 - 合并二叉树 - Tomas&#39; blog</title>
+  <title>Leetcode 538 - 把二叉搜索树转换为累加树 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,7 +132,7 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-06-03 14:22">
+                  <time datetime="2020-06-03 17:32">
                     2020年6月3日 下午
                   </time>
                 </div>
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    359 字
+                    314 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    5
+                    4
                      分钟
                   </span>
                 
@@ -183,59 +183,40 @@
             
             <article class="markdown-body">
               <p>题目：<br>来自热题100</p>
-<pre><code class="hljs quote">给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。
-你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。</code></pre>
+<pre><code class="hljs quote">给定一个二叉搜索树（Binary Search Tree），把它转换成为累加树（Greater Tree
+使得每个节点的值是原来的节点值加上所有大于它的节点值之和。</code></pre>
 
-<p>共同进行深度遍历就完了。什么遍历都一样</p>
-<pre><code class="hljs python"><span class="hljs-keyword">import</span> Queue
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mergeTrees</span><span class="hljs-params">(self, t1, t2)</span>:</span>
+<p>二叉搜索树，是所有左子节点小于父节点小于所有右子节点<br>那么要累加，就是从最右下角的节点开始遍历加总一个值到所有其它元素呗，中序深度遍历反过来。 递归或迭代。 写个递归吧</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">convertBST</span><span class="hljs-params">(self, root)</span>:</span>
         <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type t1: TreeNode</span>
-<span class="hljs-string">        :type t2: TreeNode</span>
+<span class="hljs-string">        :type root: TreeNode</span>
 <span class="hljs-string">        :rtype: TreeNode</span>
 <span class="hljs-string">        """</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> t1 <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> t2:
-            <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root <span class="hljs-keyword">or</span> (<span class="hljs-keyword">not</span> root.right <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> root.left):
+            <span class="hljs-keyword">return</span> root
 
-        <span class="hljs-keyword">if</span> t1 <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> t2:
-            <span class="hljs-keyword">return</span> t1
+        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">subproblem</span><span class="hljs-params">(node, cur_sum=<span class="hljs-number">0</span>)</span>:</span>
+            <span class="hljs-comment"># 写错了。。。查了好会儿</span>
+            <span class="hljs-comment"># if not node.right and not root.left:</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> node.right <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> node.left:            
+                node.val += cur_sum
+                <span class="hljs-keyword">return</span> node.val
 
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> t1 <span class="hljs-keyword">and</span> t2:
-            <span class="hljs-keyword">return</span> t2
+            <span class="hljs-comment"># 这里如果没右孩子应该将右边和设为cur_sum，不是0</span>
+            <span class="hljs-comment"># right_sum = subproblem(node.right, cur_sum) if node.right else 0</span>
+            right_sum = subproblem(node.right, cur_sum) <span class="hljs-keyword">if</span> node.right <span class="hljs-keyword">else</span> cur_sum
+            node.val += right_sum
+            <span class="hljs-keyword">return</span> subproblem(node.left, node.val) <span class="hljs-keyword">if</span> node.left <span class="hljs-keyword">else</span> node.val
 
-        stack = []
-        stack.append((t1, t2))
+        <span class="hljs-comment"># 不是直接返回root不执行递归，也不是返回递归，而是递归后返回根节点</span>
+        <span class="hljs-comment"># return root</span>
+        <span class="hljs-comment"># return subproblem(root)</span>
 
-        que = Queue.Queue()
-        que.put((t1, t2))
+        subproblem(root)
+        <span class="hljs-keyword">return</span> root</code></pre>
 
-        <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> que.empty():
-            <span class="hljs-comment"># 输出printh会导致超时</span>
-            <span class="hljs-comment"># print "size: " + str(que.qsize())</span>
-            cur = que.get()
-            <span class="hljs-comment"># print cur</span>
-            cur[<span class="hljs-number">0</span>].val = cur[<span class="hljs-number">0</span>].val + cur[<span class="hljs-number">1</span>].val
-
-            <span class="hljs-keyword">if</span> cur[<span class="hljs-number">0</span>].left <span class="hljs-keyword">and</span> cur[<span class="hljs-number">1</span>].left:
-                que.put((cur[<span class="hljs-number">0</span>].left, cur[<span class="hljs-number">1</span>].left))
-            <span class="hljs-comment"># 查了好久，吃完饭才想起来，没事别continue，这样后边那截都没机会跑</span>
-            <span class="hljs-comment"># elif cur[0].left and not cur[1].left:</span>
-            <span class="hljs-comment">#     continue</span>
-            <span class="hljs-keyword">elif</span> <span class="hljs-keyword">not</span> cur[<span class="hljs-number">0</span>].left <span class="hljs-keyword">and</span> cur[<span class="hljs-number">1</span>].left:
-                cur[<span class="hljs-number">0</span>].left = cur[<span class="hljs-number">1</span>].left
-
-            <span class="hljs-keyword">if</span> cur[<span class="hljs-number">0</span>].right <span class="hljs-keyword">and</span> cur[<span class="hljs-number">1</span>].right:
-                que.put((cur[<span class="hljs-number">0</span>].right, cur[<span class="hljs-number">1</span>].right))
-            <span class="hljs-comment"># elif cur[0].right and not cur[1].right:</span>
-            <span class="hljs-comment">#     continue</span>
-            <span class="hljs-keyword">elif</span> <span class="hljs-keyword">not</span> cur[<span class="hljs-number">0</span>].right <span class="hljs-keyword">and</span> cur[<span class="hljs-number">1</span>].right:
-                cur[<span class="hljs-number">0</span>].right = cur[<span class="hljs-number">1</span>].right            
-
-        <span class="hljs-keyword">return</span> t1</code></pre>
-
-<p>题本身其实没啥好说的，就是要警醒，状态写的太随意不行，真的容易带入错误</p>
+<p>这个遍历还是可以进入到node == None的，把和拿到外边形式上还简单点</p>
 
             </article>
             <hr>
@@ -259,9 +240,9 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/06/03/leetcode-461/">
+                      <a href="/2020/06/03/leetcode-283/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode 461 - 汉明距离</span>
+                        <span class="hidden-mobile">Leetcode 283 - 移动零</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -269,8 +250,8 @@
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/06/03/leetcode-498/">
-                        <span class="hidden-mobile">Leetcode 498 - 对角线遍历</span>
+                      <a href="/2020/06/03/leetcode-21/">
+                        <span class="hidden-mobile">Leetcode 21 - 合并两个有序链表</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -410,7 +391,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 617 - 合并二叉树&nbsp;",
+        "Leetcode 538 - 把二叉搜索树转换为累加树&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

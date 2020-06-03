@@ -4,6 +4,101 @@
   
   
   <entry>
+    <title>Leetcode 283 - 移动零</title>
+    <link href="/2020/06/03/leetcode-283/"/>
+    <url>/2020/06/03/leetcode-283/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自热题100</p><pre><code class="hljs quote">给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。必须在原数组上操作，不能拷贝额外的数组。尽量减少操作次数。</code></pre><p>原数组操作，不能再搞一个<br>数组里元素交换就好，只要要移动非0的，这些步骤省不了，只是每个要移动的非0直接移到它应在的位置就是了</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">moveZeroes</span><span class="hljs-params">(self, nums)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type nums: List[int]</span><span class="hljs-string">        :rtype: None Do not return anything, modify nums in-place instead.</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums <span class="hljs-keyword">or</span> len(nums) == <span class="hljs-number">1</span>:            <span class="hljs-keyword">return</span>         <span class="hljs-comment"># 偏移值</span>        offset = <span class="hljs-number">0</span>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(len(nums)):            <span class="hljs-keyword">if</span> nums[i] == <span class="hljs-number">0</span>:                offset += <span class="hljs-number">1</span>            <span class="hljs-comment"># 直接else挂了，因为会把本来不需要移位置的都设成0</span>            <span class="hljs-comment"># else:</span>            <span class="hljs-keyword">elif</span> offset != <span class="hljs-number">0</span>:                nums[i-offset] = nums[i]                nums[i] = <span class="hljs-number">0</span></code></pre><p>双指针更容易理解些，i快指针指向当前判断元素，j慢指针停在最前边的0处，一旦i碰到非0，就交换他们的值，j进一步<br>类似快速排序。快速排序也要复习下</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Leetcode 538 - 把二叉搜索树转换为累加树</title>
+    <link href="/2020/06/03/leetcode-538/"/>
+    <url>/2020/06/03/leetcode-538/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自热题100</p><pre><code class="hljs quote">给定一个二叉搜索树（Binary Search Tree），把它转换成为累加树（Greater Tree使得每个节点的值是原来的节点值加上所有大于它的节点值之和。</code></pre><p>二叉搜索树，是所有左子节点小于父节点小于所有右子节点<br>那么要累加，就是从最右下角的节点开始遍历加总一个值到所有其它元素呗，中序深度遍历反过来。 递归或迭代。 写个递归吧</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">convertBST</span><span class="hljs-params">(self, root)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type root: TreeNode</span><span class="hljs-string">        :rtype: TreeNode</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root <span class="hljs-keyword">or</span> (<span class="hljs-keyword">not</span> root.right <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> root.left):            <span class="hljs-keyword">return</span> root        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">subproblem</span><span class="hljs-params">(node, cur_sum=<span class="hljs-number">0</span>)</span>:</span>            <span class="hljs-comment"># 写错了。。。查了好会儿</span>            <span class="hljs-comment"># if not node.right and not root.left:</span>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> node.right <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> node.left:                            node.val += cur_sum                <span class="hljs-keyword">return</span> node.val            <span class="hljs-comment"># 这里如果没右孩子应该将右边和设为cur_sum，不是0</span>            <span class="hljs-comment"># right_sum = subproblem(node.right, cur_sum) if node.right else 0</span>            right_sum = subproblem(node.right, cur_sum) <span class="hljs-keyword">if</span> node.right <span class="hljs-keyword">else</span> cur_sum            node.val += right_sum            <span class="hljs-keyword">return</span> subproblem(node.left, node.val) <span class="hljs-keyword">if</span> node.left <span class="hljs-keyword">else</span> node.val        <span class="hljs-comment"># 不是直接返回root不执行递归，也不是返回递归，而是递归后返回根节点</span>        <span class="hljs-comment"># return root</span>        <span class="hljs-comment"># return subproblem(root)</span>        subproblem(root)        <span class="hljs-keyword">return</span> root</code></pre><p>这个遍历还是可以进入到node == None的，把和拿到外边形式上还简单点</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Leetcode 21 - 合并两个有序链表</title>
+    <link href="/2020/06/03/leetcode-21/"/>
+    <url>/2020/06/03/leetcode-21/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自热题100</p><pre><code class="hljs quote">将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。</code></pre><p>维护两个指针就好了吧</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mergeTwoLists</span><span class="hljs-params">(self, l1, l2)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type l1: ListNode</span><span class="hljs-string">        :type l2: ListNode</span><span class="hljs-string">        :rtype: ListNode</span><span class="hljs-string">        """</span>        res = <span class="hljs-literal">None</span>        cur = <span class="hljs-literal">None</span>        <span class="hljs-keyword">while</span> l1 <span class="hljs-keyword">or</span> l2:            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> l1:                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> cur:                    cur = l2                <span class="hljs-keyword">else</span>:                    cur.next = l2                <span class="hljs-comment"># 另两个地方缺了这句</span>                l2 = <span class="hljs-literal">None</span>            <span class="hljs-keyword">elif</span> <span class="hljs-keyword">not</span> l2:                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> cur:                    cur = l1                <span class="hljs-keyword">else</span>:                    cur.next = l1                l1 = <span class="hljs-literal">None</span>            <span class="hljs-keyword">elif</span> l1.val &lt;= l2.val:                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> cur:                    cur = ListNode(l1.val)                <span class="hljs-keyword">else</span>:                    cur.next = ListNode(l1.val)                    <span class="hljs-comment"># 2个地方缺了这句</span>                    cur = cur.next                l1 = l1.next            <span class="hljs-keyword">elif</span> l1.val &gt; l2.val:                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> cur:                    cur = ListNode(l2.val)                <span class="hljs-keyword">else</span>:                    cur.next = ListNode(l2.val)                    cur = cur.next                l2 = l2.next            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> res:                res = cur        <span class="hljs-keyword">return</span> res</code></pre><p>以为新建结构省事，其实看看还不如说，把l2叉在l1里更简明写<br>答案很简明，在更头上建一个节点然后最终返回这个节点的next就好了。l1或l2跑完了的情况拿到while外边来单独解决<br>我总是陷入起始状态的纠结里出不来<br>递归也很简单，把两个链表剩下的东西传进去</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Leetcode 169 - 多数元素</title>
+    <link href="/2020/06/03/leetcode-169/"/>
+    <url>/2020/06/03/leetcode-169/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自热题100</p><pre><code class="hljs quote">给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数大于 ⌊ n&#x2F;2 ⌋ 的元素。你可以假设数组是非空的，并且给定的数组总是存在多数元素。</code></pre><p>数组中多于一半的元素。 排序后中间那个数就是呗</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">majorityElement</span><span class="hljs-params">(self, nums)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type nums: List[int]</span><span class="hljs-string">        :rtype: int</span><span class="hljs-string">        """</span>        nums.sort()        <span class="hljs-keyword">return</span> nums[len(nums)/<span class="hljs-number">2</span>]</code></pre><p>这题方法巨多，我这只是较好的，值得后边回来再行研究</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Leetcode 206 - 反转链表</title>
+    <link href="/2020/06/03/leetcode-206/"/>
+    <url>/2020/06/03/leetcode-206/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自热题100</p><pre><code class="hljs quote">反转一个单链表。进阶:你可以迭代或递归地反转链表。你能否用两种方法解决这道题？</code></pre><p><del>简单，两个都写写呗</del></p><p>以为好写，好不容易挤出一个栈的写法</p><pre><code class="hljs python"><span class="hljs-comment"># Definition for singly-linked list.</span><span class="hljs-comment"># class ListNode(object):</span><span class="hljs-comment">#     def __init__(self, x):</span><span class="hljs-comment">#         self.val = x</span><span class="hljs-comment">#         self.next = None</span><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverseList</span><span class="hljs-params">(self, head)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type head: ListNode</span><span class="hljs-string">        :rtype: ListNode</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> head:            <span class="hljs-keyword">return</span>        stack = []        stack.append(head)        <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:            <span class="hljs-keyword">if</span> stack[<span class="hljs-number">-1</span>].next:                stack.append(stack[<span class="hljs-number">-1</span>].next)            <span class="hljs-keyword">else</span>:                reverseList = stack.pop()                res = reverseList                <span class="hljs-keyword">break</span>        <span class="hljs-keyword">while</span> stack:            reverseList.next = stack.pop()            reverseList = reverseList.next            reverseList.next = <span class="hljs-literal">None</span>        <span class="hljs-keyword">return</span> res</code></pre><p>写了个差不多的，在看了题解后终于找到关键点了</p><pre><code class="hljs python"><span class="hljs-comment"># Definition for singly-linked list.</span><span class="hljs-comment"># class ListNode(object):</span><span class="hljs-comment">#     def __init__(self, x):</span><span class="hljs-comment">#         self.val = x</span><span class="hljs-comment">#         self.next = None</span><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverseList</span><span class="hljs-params">(self, head)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type head: ListNode</span><span class="hljs-string">        :rtype: ListNode</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> head:            <span class="hljs-keyword">return</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> head.next:            <span class="hljs-keyword">return</span> head        preNode = head        resNode = preNode.next        preNode.next = <span class="hljs-literal">None</span>        <span class="hljs-keyword">while</span> resNode:            holder = resNode.next            resNode.next = preNode            preNode = resNode            resNode = holder        <span class="hljs-comment"># 这里 resNode是None啊，应该返回</span>        <span class="hljs-comment"># return resNode</span>        <span class="hljs-keyword">return</span> preNode</code></pre><p>再挤一挤迭代。。看了答案。也对，迭代只管当前步骤而不论剩下的部分到底怎么进去的<br>先递归进入下层，再处理当前层的事。其实比二叉树还简单点，怎么一点也想不出来呢</p><pre><code class="hljs python"><span class="hljs-comment"># Definition for singly-linked list.</span><span class="hljs-comment"># class ListNode(object):</span><span class="hljs-comment">#     def __init__(self, x):</span><span class="hljs-comment">#         self.val = x</span><span class="hljs-comment">#         self.next = None</span><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverseList</span><span class="hljs-params">(self, head)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type head: ListNode</span><span class="hljs-string">        :rtype: ListNode</span><span class="hljs-string">        """</span>        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">nextNode</span><span class="hljs-params">(node)</span>:</span>            <span class="hljs-comment"># 这个地方要不就是连一个节点也没有，要不就是返回了老链表尾巴，新链表的头</span>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> node <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> node.next:                <span class="hljs-keyword">return</span> node            <span class="hljs-comment"># 先把后半截反转掉，等于从屁股开始处理</span>            new_head = nextNode(node.next)            <span class="hljs-comment"># 把已经反转的链表后半部分最后一个的指向当前层的节点</span>            node.next.next = node            node.next = <span class="hljs-literal">None</span>            <span class="hljs-comment"># 一层层传递的是新链表头</span>            <span class="hljs-keyword">return</span> new_head    <span class="hljs-comment"># 返回了个啥</span>    <span class="hljs-keyword">return</span> nextNode    <span class="hljs-keyword">return</span> nextNode(head)</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Leetcode 461 - 汉明距离</title>
     <link href="/2020/06/03/leetcode-461/"/>
     <url>/2020/06/03/leetcode-461/</url>
@@ -23,12 +118,18 @@
   
   
   <entry>
-    <title>leetcode 617</title>
+    <title>Leetcode 617 - 合并二叉树</title>
     <link href="/2020/06/03/leetcode-617/"/>
     <url>/2020/06/03/leetcode-617/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>题目：<br>来自热题100</p><pre><code class="hljs quote">给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。</code></pre><p>共同进行深度遍历就完了。什么遍历都一样</p><pre><code class="hljs python"><span class="hljs-keyword">import</span> Queue<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mergeTrees</span><span class="hljs-params">(self, t1, t2)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type t1: TreeNode</span><span class="hljs-string">        :type t2: TreeNode</span><span class="hljs-string">        :rtype: TreeNode</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> t1 <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> t2:            <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>        <span class="hljs-keyword">if</span> t1 <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> t2:            <span class="hljs-keyword">return</span> t1        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> t1 <span class="hljs-keyword">and</span> t2:            <span class="hljs-keyword">return</span> t2        stack = []        stack.append((t1, t2))        que = Queue.Queue()        que.put((t1, t2))        <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> que.empty():            <span class="hljs-comment"># 输出printh会导致超时</span>            <span class="hljs-comment"># print "size: " + str(que.qsize())</span>            cur = que.get()            <span class="hljs-comment"># print cur</span>            cur[<span class="hljs-number">0</span>].val = cur[<span class="hljs-number">0</span>].val + cur[<span class="hljs-number">1</span>].val            <span class="hljs-keyword">if</span> cur[<span class="hljs-number">0</span>].left <span class="hljs-keyword">and</span> cur[<span class="hljs-number">1</span>].left:                que.put((cur[<span class="hljs-number">0</span>].left, cur[<span class="hljs-number">1</span>].left))            <span class="hljs-comment"># 查了好久，吃完饭才想起来，没事别continue，这样后边那截都没机会跑</span>            <span class="hljs-comment"># elif cur[0].left and not cur[1].left:</span>            <span class="hljs-comment">#     continue</span>            <span class="hljs-keyword">elif</span> <span class="hljs-keyword">not</span> cur[<span class="hljs-number">0</span>].left <span class="hljs-keyword">and</span> cur[<span class="hljs-number">1</span>].left:                cur[<span class="hljs-number">0</span>].left = cur[<span class="hljs-number">1</span>].left            <span class="hljs-keyword">if</span> cur[<span class="hljs-number">0</span>].right <span class="hljs-keyword">and</span> cur[<span class="hljs-number">1</span>].right:                que.put((cur[<span class="hljs-number">0</span>].right, cur[<span class="hljs-number">1</span>].right))            <span class="hljs-comment"># elif cur[0].right and not cur[1].right:</span>            <span class="hljs-comment">#     continue</span>            <span class="hljs-keyword">elif</span> <span class="hljs-keyword">not</span> cur[<span class="hljs-number">0</span>].right <span class="hljs-keyword">and</span> cur[<span class="hljs-number">1</span>].right:                cur[<span class="hljs-number">0</span>].right = cur[<span class="hljs-number">1</span>].right                    <span class="hljs-keyword">return</span> t1</code></pre><p>题本身其实没啥好说的，就是要警醒，状态写的太随意不行，真的容易带入错误</p>]]></content>
     
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
     
     
   </entry>
