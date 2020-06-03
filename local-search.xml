@@ -4,6 +4,76 @@
   
   
   <entry>
+    <title>Leetcode 461 - 汉明距离</title>
+    <link href="/2020/06/03/leetcode-461/"/>
+    <url>/2020/06/03/leetcode-461/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自热题100</p><pre><code class="hljs quote">两个整数之间的汉明距离指的是这两个数字对应二进制位不同的位置的数目。给出两个整数 x 和 y，计算它们之间的汉明距离。注意：0 ≤ x, y &lt; 2**31.</code></pre><p>二进制位不同的数目，异或呗，相同等于0，不同等于1<br>注意里的意思，单数字占位4个字节，而且是正数</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hammingDistance</span><span class="hljs-params">(self, x, y)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type x: int</span><span class="hljs-string">        :type y: int</span><span class="hljs-string">        :rtype: int</span><span class="hljs-string">        """</span>        res = <span class="hljs-number">0</span>        <span class="hljs-comment"># 二进制转换后前两位分别代表正负(0或1)和"b"二进制</span>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> str(bin(x^y))[<span class="hljs-number">2</span>:]:            <span class="hljs-keyword">if</span> i == <span class="hljs-string">"1"</span>:                res += <span class="hljs-number">1</span>        <span class="hljs-keyword">return</span> res</code></pre><p>取巧了，因为昨天刚研究一轮二进制所以知道。看看通常思路<br>bin(x ^ y).count(‘1’)<br>位计数就行…都忘了还有这种函数了</p><p>还可以这样：<br>检查最右位是否为 1，可以使用取模运算（i % 2）或者 AND 操作（i &amp; 1），这两个操作都会屏蔽最右位以外的其他位</p><p>另外：<br>布赖恩·克尼根算法。。。我弃疗</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>leetcode 617</title>
+    <link href="/2020/06/03/leetcode-617/"/>
+    <url>/2020/06/03/leetcode-617/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Leetcode 498 - 对角线遍历</title>
+    <link href="/2020/06/03/leetcode-498/"/>
+    <url>/2020/06/03/leetcode-498/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自探索-二维数组简介</p><pre><code class="hljs quote">给定一个含有 M x N 个元素的矩阵（M 行，N 列），请以对角线遍历的顺序返回这个矩阵中的所有元素，对角线遍历如下图所示。</code></pre><p>这个有点意思，练一练数组遍历的手。 图里就是先向右上的蛇形遍历<br>应该有个标志量来说明目前轮次是向右上还是向左下遍历<br>终结点必然是右下</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findDiagonalOrder</span><span class="hljs-params">(self, matrix)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type matrix: List[List[int]]</span><span class="hljs-string">        :rtype: List[int]</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> matrix:            <span class="hljs-keyword">return</span> []        <span class="hljs-comment"># 奇数轮向右上遍历，偶数轮向左下遍历</span>        flag = <span class="hljs-number">1</span>        res = []        i, j = <span class="hljs-number">0</span>, <span class="hljs-number">0</span>        <span class="hljs-keyword">while</span> i &lt;= len(matrix)<span class="hljs-number">-1</span> <span class="hljs-keyword">and</span> j &lt;= len(matrix[<span class="hljs-number">0</span>])<span class="hljs-number">-1</span>:            res.append(matrix[i][j])            <span class="hljs-comment"># 之前向右上遍历的</span>            <span class="hljs-keyword">if</span> flag%<span class="hljs-number">2</span>:                <span class="hljs-comment"># 如果可以继续向右上走</span>                <span class="hljs-keyword">if</span> i<span class="hljs-number">-1</span> &gt;= <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> j+<span class="hljs-number">1</span>&lt;=len(matrix[<span class="hljs-number">0</span>])<span class="hljs-number">-1</span>:                    i -= <span class="hljs-number">1</span>                    j += <span class="hljs-number">1</span>                <span class="hljs-comment"># 要转向了</span>                <span class="hljs-keyword">else</span>:                    flag += <span class="hljs-number">1</span>                    <span class="hljs-comment"># 右边还有元素，向右一格</span>                    <span class="hljs-keyword">if</span> j+<span class="hljs-number">1</span> &lt;= len(matrix[<span class="hljs-number">0</span>])<span class="hljs-number">-1</span>:                        j += <span class="hljs-number">1</span>                    <span class="hljs-comment"># 右边没元素了，向下走</span>                    <span class="hljs-keyword">else</span>:                        i += <span class="hljs-number">1</span>                <span class="hljs-comment"># # 遍历到第一行了，肯定换方向</span>                <span class="hljs-comment"># if i-1 &lt; 0:</span>                <span class="hljs-comment">#     flag += 1</span>                <span class="hljs-comment">#     # 右边也没更多列了，就该向下走一格</span>                <span class="hljs-comment">#     if j+1 &gt; len(matrix[0])-1:</span>                <span class="hljs-comment">#         i += 1</span>                <span class="hljs-comment">#     # y右边还有元素，向右一格</span>                <span class="hljs-comment">#     else:</span>                <span class="hljs-comment">#         j += 1</span>                <span class="hljs-comment"># # 还可以继续向右上走</span>                <span class="hljs-comment"># else:</span>                <span class="hljs-comment">#     # 但是右边已经没列了，向下一格，也换方向</span>                <span class="hljs-comment">#     if j+1 &gt; len(matrix[0])-1:</span>                <span class="hljs-comment">#         flag += 1</span>                <span class="hljs-comment">#         i += 1</span>                <span class="hljs-comment">#     # 真正可以向右上走</span>                <span class="hljs-comment">#     else:</span>                <span class="hljs-comment">#         i -= 1</span>                <span class="hljs-comment">#         j += 1</span>            <span class="hljs-keyword">else</span>:                <span class="hljs-comment"># 可以继续向左下走</span>                <span class="hljs-keyword">if</span> j<span class="hljs-number">-1</span> &gt;=<span class="hljs-number">0</span>  <span class="hljs-keyword">and</span> i+<span class="hljs-number">1</span>&lt;=len(matrix)<span class="hljs-number">-1</span>:                    i += <span class="hljs-number">1</span>                    j -= <span class="hljs-number">1</span>                <span class="hljs-comment"># 要转向</span>                <span class="hljs-keyword">else</span>:                    flag += <span class="hljs-number">1</span>                    <span class="hljs-comment"># 下方还有元素，向下一格</span>                    <span class="hljs-keyword">if</span> i+<span class="hljs-number">1</span>&lt;=len(matrix)<span class="hljs-number">-1</span>:                        i += <span class="hljs-number">1</span>                    <span class="hljs-comment"># 必须向右了</span>                    <span class="hljs-keyword">else</span>:                        j += <span class="hljs-number">1</span>        <span class="hljs-keyword">return</span> res</code></pre><p>还算顺利吧，中间注释掉的地方是我在开始写的。 if分支里先解决最最主要得部分是简化得关键，比先解决特别情况要更优雅些，代码少点<br>另一种算法是，沿一个方向得对角线遍历，在内层用一个list保存遍历内容，遍历完直接加入结果或者，取反加入结果<br>list.extend() 扩展数组</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Leetcode mian-01-08 零矩阵</title>
+    <link href="/2020/06/02/leetcode-mian-01-08/"/>
+    <url>/2020/06/02/leetcode-mian-01-08/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自探索-二维数组简介</p><pre><code class="hljs quote">编写一种算法，若M × N矩阵中某个元素为0，则将其所在的行与列清零。</code></pre><p>必须先遍历一遍，否则会导致误变很多行列的0</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">setZeroes</span><span class="hljs-params">(self, matrix)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type matrix: List[List[int]]</span><span class="hljs-string">        :rtype: None Do not return anything, modify matrix in-place instead.</span><span class="hljs-string">        """</span>        r_set = set()        c_set = set()        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(len(matrix)):            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> xrange(len(matrix[<span class="hljs-number">0</span>])):                <span class="hljs-keyword">if</span> matrix[i][j] == <span class="hljs-number">0</span>:                    r_set.add(i)                    c_set.add(j)        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> r_set:            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> xrange(len(matrix[<span class="hljs-number">0</span>])):                matrix[i][j] = <span class="hljs-number">0</span>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> c_set:            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(len(matrix)):                matrix[i][j] = <span class="hljs-number">0</span></code></pre><p>这道题怎么就中等难度了。。。一下就写完了。不用回来看</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Leetcode mian-64 - 求1+2+…+n</title>
     <link href="/2020/06/02/leetcode-mian-64/"/>
     <url>/2020/06/02/leetcode-mian-64/</url>

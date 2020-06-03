@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>分类 - Leetcode - Tomas&#39; blog</title>
+  <title>Leetcode 461 - 汉明距离 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -46,7 +46,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -129,6 +129,38 @@
             </span>
 
             
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2020-06-03 14:47">
+                    2020年6月3日 下午
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    273 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    3
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
           </div>
 
           
@@ -139,103 +171,102 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-<!--  <p class="h4">共计 10 篇文章</p>-->
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/06/03/leetcode-461/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 461 - 汉明距离</span>
-      <span style="float: right;">06-03</span>
-    </a>
-  
-    
-    <a href="/2020/06/03/leetcode-498/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 498 - 对角线遍历</span>
-      <span style="float: right;">06-03</span>
-    </a>
-  
-    
-    <a href="/2020/06/02/leetcode-mian-01-08/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode mian-01-08 零矩阵</span>
-      <span style="float: right;">06-02</span>
-    </a>
-  
-    
-    <a href="/2020/06/02/leetcode-mian-64/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode mian-64 - 求1+2+…+n</span>
-      <span style="float: right;">06-02</span>
-    </a>
-  
-    
-    <a href="/2020/06/01/leetcode-56/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 56 - 合并区间</span>
-      <span style="float: right;">06-01</span>
-    </a>
-  
-    
-    <a href="/2020/06/01/leetcode-35/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 35 - 搜索插入位置</span>
-      <span style="float: right;">06-01</span>
-    </a>
-  
-    
-    <a href="/2020/06/01/leetcode-724/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 724 - 寻找数组的中心索引</span>
-      <span style="float: right;">06-01</span>
-    </a>
-  
-    
-    <a href="/2020/06/01/leetcode-1431/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 1431 - 拥有最多糖果的孩子</span>
-      <span style="float: right;">06-01</span>
-    </a>
-  
-    
-    <a href="/2020/05/29/leetcode-733/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 733 - 图像渲染</span>
-      <span style="float: right;">05-29</span>
-    </a>
-  
-    
-    <a href="/2020/05/29/leetcode-225/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Leetcode 225 - 用队列实现栈</span>
-      <span style="float: right;">05-29</span>
-    </a>
-  
-</div>
 
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/categories/Leetcode/page/2/">2</a><a class="page-number" href="/categories/Leetcode/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/categories/Leetcode/page/5/">5</a><a class="extend next" rel="next" href="/categories/Leetcode/page/2/"><i class="iconfont icon-arrowright"></i></a>
-    </span>
-  </nav>
-  
-  <script>
-    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
-      ele.href += '#board';
-    }
-  </script>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>题目：<br>来自热题100</p>
+<pre><code class="hljs quote">两个整数之间的汉明距离指的是这两个数字对应二进制位不同的位置的数目。
 
+给出两个整数 x 和 y，计算它们之间的汉明距离。
 
+注意：
+0 ≤ x, y &lt; 2**31.</code></pre>
 
+<p>二进制位不同的数目，异或呗，相同等于0，不同等于1<br>注意里的意思，单数字占位4个字节，而且是正数</p>
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hammingDistance</span><span class="hljs-params">(self, x, y)</span>:</span>
+        <span class="hljs-string">"""</span>
+<span class="hljs-string">        :type x: int</span>
+<span class="hljs-string">        :type y: int</span>
+<span class="hljs-string">        :rtype: int</span>
+<span class="hljs-string">        """</span>
+        res = <span class="hljs-number">0</span>
+        <span class="hljs-comment"># 二进制转换后前两位分别代表正负(0或1)和"b"二进制</span>
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> str(bin(x^y))[<span class="hljs-number">2</span>:]:
+            <span class="hljs-keyword">if</span> i == <span class="hljs-string">"1"</span>:
+                res += <span class="hljs-number">1</span>
+
+        <span class="hljs-keyword">return</span> res</code></pre>
+
+<p>取巧了，因为昨天刚研究一轮二进制所以知道。看看通常思路<br>bin(x ^ y).count(‘1’)<br>位计数就行…都忘了还有这种函数了</p>
+<p>还可以这样：<br>检查最右位是否为 1，可以使用取模运算（i % 2）或者 AND 操作（i &amp; 1），这两个操作都会屏蔽最右位以外的其他位</p>
+<p>另外：<br>布赖恩·克尼根算法。。。我弃疗</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Leetcode/">Leetcode</a>
+                    
+                  </div>
+                
+                
               </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/03/leetcode-617/">
+                        <span class="hidden-mobile">leetcode 617</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
             </div>
+
+            
           </div>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
   </main>
 
@@ -299,6 +330,34 @@
 
 
 
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
 
 
   <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
@@ -318,7 +377,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "分类 - Leetcode&nbsp;",
+        "Leetcode 461 - 汉明距离&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
@@ -361,6 +420,20 @@
   </script>
 
 
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
 
 
 
