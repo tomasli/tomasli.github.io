@@ -157,6 +157,42 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/21/leetcode-5/">Leetcode 5 - 最长回文子串</a>
+
+      <a href="/2020/05/21/leetcode-5/" class="index-excerpt">
+        
+        
+          
+        
+        <div>题目：
+给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
+
+刚研究些动态规划模板趁热乎热热身这个不是返回最长子串的长度，而是最长子串本身，如果有多个，保留最长一个就行了（一前一后保留后边一个，还可能增长）状态：s中以第i个元素结尾的子串，最长回文子串为dp[i]终结状态为dp[len(s)-1], base case为字符串为空，返回None；字符串为len</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-21
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Leetcode/">Leetcode</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2020/05/20/leetcode-1371/">Leetcode 1371 - 每个元音包含偶数次的最长子字符串</a>
 
       <a href="/2020/05/20/leetcode-1371/" class="index-excerpt">
@@ -501,50 +537,11 @@ class Solution(object):
     </div>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/13/leetcode-105/">Leetcode 105 - 从前序与中序遍历序列构造二叉树</a>
-
-      <a href="/2020/05/13/leetcode-105/" class="index-excerpt">
-        
-        
-          
-        
-        <div>题目：
-根据一棵树的前序遍历与中序遍历构造二叉树。
-
-遍历树的逆运算。所谓前中后，就是（左节点，父节点，右节点）中，父节点在前中后位置处理前序第一个值肯定是root两种排序里，右节点的位置不会变。猜想应该从后往前构造树。从子节点开始构造，迭代更好一些的感觉有想了想，如果树右下角没有右叶子，两list最后一位就不一样。所以从后往前推还不如从前往后推的感觉了
-
-想不到解法，抄了题解中的一步思路试试
-首</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-13
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Leetcode/">Leetcode</a>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/3/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/3/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

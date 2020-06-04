@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Leetcode 238 - 除自身以外数组的乘积</title>
+    <link href="/2020/06/04/leetcode-238/"/>
+    <url>/2020/06/04/leetcode-238/</url>
+    
+    <content type="html"><![CDATA[<p>题目：<br>来自每日一题</p><pre><code class="hljs quote">给你一个长度为 n 的整数数组 nums，其中 n &gt; 1，返回输出数组 output ，其中 output[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积。提示：题目数据保证数组之中任意元素的全部前缀元素和后缀（甚至是整个数组）的乘积都在 32 位整数范围内。说明: 请不要使用除法，且在 O(n) 时间复杂度内完成此题。进阶：你可以在常数空间复杂度内完成这个题目吗？（ 出于对空间复杂度分析的目的，输出数组不被视为额外空间。）</code></pre><p>限制太多了吧。想的是全乘完了各自除一下，但明确不让除，这咋整<br>可以算每个值左边所有数的乘积*右边所有数的乘积，这个可以用二维dp数组来搞，但是空间和时间复杂度都超了<br>可以不二维dp，因为乘积不用保存中间的，只需要保存从头开始和从尾开始的就够了，三个循环，用dict存</p><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">productExceptSelf</span><span class="hljs-params">(self, nums)</span>:</span>        <span class="hljs-string">"""</span><span class="hljs-string">        :type nums: List[int]</span><span class="hljs-string">        :rtype: List[int]</span><span class="hljs-string">        """</span>        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">1</span>:            <span class="hljs-keyword">return</span> nums        length = len(nums)        dict = &#123;&#125;        res = []        dict[(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)] = <span class="hljs-number">1</span>        dict[(length, length<span class="hljs-number">-1</span>)] = <span class="hljs-number">1</span>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(length<span class="hljs-number">-1</span>):            dict[(<span class="hljs-number">0</span>, i+<span class="hljs-number">1</span>)] = dict[(<span class="hljs-number">0</span>, i)]*nums[i]        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(length<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>):            dict[(i, length<span class="hljs-number">-1</span>)] = dict[(i+<span class="hljs-number">1</span>, length<span class="hljs-number">-1</span>)]*nums[i]        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(length):            res.append(dict[(<span class="hljs-number">0</span>,i)]*dict[(i+<span class="hljs-number">1</span>, length<span class="hljs-number">-1</span>)])        <span class="hljs-keyword">return</span> res</code></pre><p>来回调边界值，两头的边界值还标准不太一样，只战胜了5%的答案。。。<br>看答案<br>我慢是因为创建的是dict，比他们用的双数组慢点，一个思路<br>空间为常数神奇了<br>用结果数组先保存左边的乘积，然后用一个常量保存右边的乘积，然后从右往左挨个算，常量乘积也跟着变化</p><p>这个题回头还可以回来做做</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Leetcode</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Leetcode 283 - 移动零</title>
     <link href="/2020/06/03/leetcode-283/"/>
     <url>/2020/06/03/leetcode-283/</url>
