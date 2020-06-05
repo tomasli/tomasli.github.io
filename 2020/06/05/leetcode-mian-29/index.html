@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Tomas">
   <meta name="keywords" content="">
-  <title>Leetcode 238 - 除自身以外数组的乘积 - Tomas&#39; blog</title>
+  <title>Leetcode mian 29 - 顺时针打印矩阵 - Tomas&#39; blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -132,8 +132,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-06-04 15:28">
-                    2020年6月4日 下午
+                  <time datetime="2020-06-05 15:55">
+                    2020年6月5日 下午
                   </time>
                 </div>
               
@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    491 字
+                    438 字
                   </span>
                 
 
@@ -183,43 +183,67 @@
             
             <article class="markdown-body">
               <p>题目：<br>来自每日一题</p>
-<pre><code class="hljs quote">给你一个长度为 n 的整数数组 nums，其中 n &gt; 1，返回输出数组 output ，其中 output[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积。
-提示：题目数据保证数组之中任意元素的全部前缀元素和后缀（甚至是整个数组）的乘积都在 32 位整数范围内。
-说明: 请不要使用除法，且在 O(n) 时间复杂度内完成此题。
-进阶：
-你可以在常数空间复杂度内完成这个题目吗？（ 出于对空间复杂度分析的目的，输出数组不被视为额外空间。）</code></pre>
+<pre><code class="hljs quote">输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字。</code></pre>
 
-<p>限制太多了吧。想的是全乘完了各自除一下，但明确不让除，这咋整<br>可以算每个值左边所有数的乘积*右边所有数的乘积，这个可以用二维dp数组来搞，但是空间和时间复杂度都超了<br>可以不二维dp，因为乘积不用保存中间的，只需要保存从头开始和从尾开始的就够了，三个循环，用dict存</p>
+<p>前几天搞了个更难的了，翻转矩阵，虽然没搞出来，这个应该有点把握<br>矩阵不一定是正方形</p>
 <pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">productExceptSelf</span><span class="hljs-params">(self, nums)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">spiralOrder</span><span class="hljs-params">(self, matrix)</span>:</span>
         <span class="hljs-string">"""</span>
-<span class="hljs-string">        :type nums: List[int]</span>
+<span class="hljs-string">        :type matrix: List[List[int]]</span>
 <span class="hljs-string">        :rtype: List[int]</span>
 <span class="hljs-string">        """</span>
 
-        <span class="hljs-keyword">if</span> len(nums) == <span class="hljs-number">1</span>:
-            <span class="hljs-keyword">return</span> nums
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> matrix:
+            <span class="hljs-keyword">return</span> []
 
-        length = len(nums)
-
-        dict = &#123;&#125;
         res = []
-        dict[(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)] = <span class="hljs-number">1</span>
-        dict[(length, length<span class="hljs-number">-1</span>)] = <span class="hljs-number">1</span>
 
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(length<span class="hljs-number">-1</span>):
-            dict[(<span class="hljs-number">0</span>, i+<span class="hljs-number">1</span>)] = dict[(<span class="hljs-number">0</span>, i)]*nums[i]
+        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">subPorblem</span><span class="hljs-params">(matrix)</span>:</span>
+            <span class="hljs-comment"># 针对内部全是空数组的数组，这个退出条件还不够</span>
+            <span class="hljs-comment"># if not matrix:</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> matrix <span class="hljs-keyword">or</span> matrix <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> matrix[<span class="hljs-number">0</span>]:
+                <span class="hljs-keyword">return</span>
 
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(length<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>):
-            dict[(i, length<span class="hljs-number">-1</span>)] = dict[(i+<span class="hljs-number">1</span>, length<span class="hljs-number">-1</span>)]*nums[i]
+            col_len = len(matrix)
+            row_len = len(matrix[<span class="hljs-number">0</span>])
 
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(length):
-            res.append(dict[(<span class="hljs-number">0</span>,i)]*dict[(i+<span class="hljs-number">1</span>, length<span class="hljs-number">-1</span>)])
+            <span class="hljs-comment"># 向右走</span>
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(row_len):
+                res.append(matrix[<span class="hljs-number">0</span>][i])
+            
+            <span class="hljs-comment"># 该层只有一行的情况，直接返回就行</span>
+            <span class="hljs-keyword">if</span> col_len &lt;= <span class="hljs-number">1</span>:
+                <span class="hljs-keyword">return</span>
+
+            <span class="hljs-comment"># 向下走</span>
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(<span class="hljs-number">1</span>, col_len):
+                res.append(matrix[i][row_len<span class="hljs-number">-1</span>])
+
+            <span class="hljs-comment"># 该层只有一列的情况，也直接返回</span>
+            <span class="hljs-keyword">if</span> row_len &lt;= <span class="hljs-number">1</span>:
+                <span class="hljs-keyword">return</span>
+
+            <span class="hljs-comment"># 向左走</span>
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(row_len<span class="hljs-number">-2</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>):
+                res.append(matrix[col_len<span class="hljs-number">-1</span>][i])
+
+            <span class="hljs-comment"># 向上走</span>
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(col_len<span class="hljs-number">-2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>):
+                res. append(matrix[i][<span class="hljs-number">0</span>])
+
+            <span class="hljs-comment"># 剥掉外层，进入内循环</span>
+            <span class="hljs-comment"># matrix[1:row_len-1][1:col_len-1]不会返回子矩阵，而是顺序做了两次操作，在第一个维度掐掉两次</span>
+            <span class="hljs-comment"># subPorblem(matrix[1:row_len-1][1:col_len-1])</span>
+            <span class="hljs-comment"># 横纵轴再次反了</span>
+            <span class="hljs-comment"># subPorblem([i[1:col_len-1] for i in matrix][1:row_len-1])</span>
+            subPorblem([i[<span class="hljs-number">1</span>:row_len<span class="hljs-number">-1</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> matrix][<span class="hljs-number">1</span>:col_len<span class="hljs-number">-1</span>])
+
+        subPorblem(matrix)
 
         <span class="hljs-keyword">return</span> res</code></pre>
 
-<p>来回调边界值，两头的边界值还标准不太一样，只战胜了5%的答案。。。<br>看答案<br>我慢是因为创建的是dict，比他们用的双数组慢点，一个思路<br>空间为常数神奇了<br>用结果数组先保存左边的乘积，然后用一个常量保存右边的乘积，然后从右往左挨个算，常量乘积也跟着变化</p>
-<p>这个题回头还可以回来做做</p>
+<p>xy轴全线写反。。明明还专门注意了<br>转向时也注意了，但还是错<br>中间隔个中午思路全断了<br>好不容易啊<br>击败5%的答案，重组二维数组的效率高不了正常</p>
+<p>开始的模拟层数的思路对。也有另一种循环全部，用辅助二维数组来记录是否已访问的方式<br>这是个苦力活，技巧没啥就是得仔细</p>
 
             </article>
             <hr>
@@ -243,18 +267,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/06/05/leetcode-mian-29/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Leetcode mian 29 - 顺时针打印矩阵</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/06/03/leetcode-283/">
-                        <span class="hidden-mobile">Leetcode 283 - 移动零</span>
+                      <a href="/2020/06/04/leetcode-238/">
+                        <span class="hidden-mobile">Leetcode 238 - 除自身以外数组的乘积</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -394,7 +412,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Leetcode 238 - 除自身以外数组的乘积&nbsp;",
+        "Leetcode mian 29 - 顺时针打印矩阵&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
